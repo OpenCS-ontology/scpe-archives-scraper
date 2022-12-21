@@ -1,0 +1,39 @@
+# Docs: https://graphviz.org/documentation/
+# Online renderer: http://viz-js.com/
+
+digraph SCPE_Onto {
+    subgraph cluster_prefixes {
+        node [shape=none];
+        prefixes [label=<<FONT POINT-SIZE="8">
+<TABLE BORDER="0" CELLSPACING="0" CELLPADDING="1">
+    <TR>
+        <TD ALIGN="right">:</TD>
+        <TD ALIGN="left">??? our URI for classes</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">dcterms:</TD>
+        <TD ALIGN="left">&lt;http://purl.org/dc/terms/&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">fabio:</TD>
+        <TD ALIGN="left">&lt;http://purl.org/spar/fabio/&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">foaf:</TD>
+        <TD ALIGN="left">&lt;http://xmlns.com/foaf/0.1/&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">schema:</TD>
+        <TD ALIGN="left">&lt;https://schema.org/&gt;</TD>
+    </TR>
+</TABLE></FONT>>];
+        label = Prefixes;
+        style = filled
+        fillcolor = lightyellow;
+    }
+
+    subgraph cluster_paper {
+        ":Paper" [shape=box, fillcolor=yellow, style=filled];
+        label = "Paper";
+    }
+}
