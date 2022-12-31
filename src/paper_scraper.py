@@ -10,12 +10,6 @@ URL_ARCHIVES = 'https://www.scpe.org/index.php/scpe/issue/archive'
 BEAUTIFUL_SOUP_FEATURES = "html.parser"
 
 
-@dataclass
-class PaperScraperResponse:
-    doi: str
-    paper_abstract: str
-
-
 def get_paper_queue() -> Queue[PaperScraperResponse]:
     q = Queue()
     t = Thread(target=scrape_all_doi, args=[q])

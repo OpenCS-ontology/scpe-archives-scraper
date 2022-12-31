@@ -1,9 +1,9 @@
 import requests
 
-API_PREFIX = "https://doi.org/"
-
+DOI_PREFIX = "https://doi.org/"
+ORCID_SEARCH_TEMPLATE = "https://pub.orcid.org/v3.0/expanded-search/?q=%s&start=0&rows=10"
 
 def call_api(doi: str) -> requests.Response:
-    url_call = API_PREFIX + doi
+    url_call = DOI_PREFIX + doi
     r_rdf = requests.get(url_call, headers={"Accept": "text/turtle"})
     return r_rdf

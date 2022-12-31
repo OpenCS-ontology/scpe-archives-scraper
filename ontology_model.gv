@@ -1,6 +1,3 @@
-# Docs: https://graphviz.org/documentation/
-# Online renderer: http://viz-js.com/
-
 digraph SCPE_Onto {
     subgraph cluster_prefixes {
         node [shape=none];
@@ -11,12 +8,20 @@ digraph SCPE_Onto {
         <TD ALIGN="left">??? our URI for classes</TD>
     </TR>
     <TR>
-        <TD ALIGN="right">dcterms:</TD>
-        <TD ALIGN="left">&lt;http://purl.org/dc/terms/&gt;</TD>
+        <TD ALIGN="right">xsd:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/2001/XMLSchema#&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">datacite:</TD>
+        <TD ALIGN="left">&lt;http://purl.org/spar/datacite/&gt;</TD>
     </TR>
     <TR>
         <TD ALIGN="right">fabio:</TD>
         <TD ALIGN="left">&lt;http://purl.org/spar/fabio/&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">dcterms:</TD>
+        <TD ALIGN="left">&lt;http://purl.org/dc/terms/&gt;</TD>
     </TR>
     <TR>
         <TD ALIGN="right">foaf:</TD>
@@ -26,6 +31,21 @@ digraph SCPE_Onto {
         <TD ALIGN="right">schema:</TD>
         <TD ALIGN="left">&lt;https://schema.org/&gt;</TD>
     </TR>
+    <TR>
+        <TD ALIGN="right">dbo:</TD>
+        <TD ALIGN="left">&lt;http://dbpedia.org/ontology/&gt;</TD>
+    </TR>
+
+    <!--
+    <TR>
+        <TD ALIGN="right">rdfs:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">owl:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/2002/07/owl#&gt;</TD>
+    </TR>
+    -->
 </TABLE></FONT>>];
         label = Prefixes;
         style = filled
@@ -33,7 +53,36 @@ digraph SCPE_Onto {
     }
 
     subgraph cluster_paper {
-        ":Paper" [shape=box, fillcolor=yellow, style=filled];
         label = "Paper";
+        node [shape=parallelogram, fillcolor=limegreen, style=filled];
+        edge [shape=onormal];
+
+        ":Paper" [shape=box, fillcolor=yellow, style=filled];
+        #"schema:CreativeWork" [shape=box, fillcolor=white];
+        #":Paper" -> "schema:CreativeWork" [label="owl:sameAs"];
+
+        ":Paper" -> "xsd:string" [label="dcterms:title"];
+        ":Paper" -> "xsd:string" [label="dcterms:abstract"];
+
+        ":Paper" -> "xsd:string" [label="datacite:doi"];
+        ":Paper" -> "xsd:anyURI" [label="fabio:hasURL"];
+
+        ":Paper" -> ":Author" [label="schema:author", shape=normal];
+        ":Paper" -> "schema:Text" [label="schema:keywords"];
+        ":Paper" -> "xsd:integer" [label="schema:volumeNumber"];
+        ":Paper" -> "xsd:integer" [label="schema:pageStart"];
+        ":Paper" -> "xsd:integer" [label="schema:pageEnd"];
+    }
+
+    subgraph cluster_author {
+        label = "Author";
+        node [shape=parallelogram, fillcolor=limegreen, style=filled];
+        edge [shape=onormal];
+
+        ":Author" [shape=box, fillcolor=yellow, style=filled];
+
+        ":Author" -> "xsd:string" [label="foaf:givenName"];
+        ":Author" -> "xsd:string" [label="foaf:givenName"];
+        ":Author" -> "xsd:string" [label="dbo:orcidId"];
     }
 }
