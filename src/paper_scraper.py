@@ -1,13 +1,44 @@
+import logging
 from dataclasses import dataclass
 from http import HTTPStatus
 from queue import Queue
 from threading import Thread
+from typing import List, Optional
 
 import requests
 from bs4 import BeautifulSoup
 
 URL_ARCHIVES = 'https://www.scpe.org/index.php/scpe/issue/archive'
 BEAUTIFUL_SOUP_FEATURES = "html.parser"
+
+
+@dataclass
+class AuthorScraperResponse:
+    # citation_author
+    name: str
+
+    # citation_author_institution
+    affiliation: Optional[str]
+
+
+@dataclass
+class PaperScraperResponse:
+    # Page's url
+    url: str
+
+    # DC.Description
+    abstract_text: str
+
+    # DC.Identifier.DOI
+    doi: str
+
+    # DC.Subject
+    keywords: List[str]
+
+    # Cannot be acquired from meta
+    pdf_url: str
+
+    authors: List[AuthorScraperResponse]
 
 
 def get_paper_queue() -> Queue[PaperScraperResponse]:
@@ -20,6 +51,7 @@ def get_paper_queue() -> Queue[PaperScraperResponse]:
 def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:
     """
     Using HTTP requests get DOIs of all articles in the SCPE archives.
+    :param q: Parallel listener into which to return found data.
     :return: List of all DOIs in SCPE Archive.
     """
     r_archives = requests.get(URL_ARCHIVES)
@@ -39,6 +71,7 @@ def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:
 def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
     """
     Using HTTP requests get DOIs from a single issue in the SCPE archive.
+    :param q: Parallel listener into which to return found data.
     :param url_issue: URL to the issue on scpe.org.
     :return: List of all DOIs present in this issue.
     """
@@ -59,17 +92,78 @@ def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
 def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
     """
     Using HTTP requests get the DOI of paper present under a specific URL on scpe.org.
+    :param q: Parallel listener into which to return found data.
     :param url_paper: URL of the paper from which DOI to scrape.
     :return: DOI of the paper related to the URL.
     """
+
+    def find_doi(html: BeautifulSoup) -> str:
+        meta_doi = html.find("meta", {"name": "DC.Identifier.DOI"})
+        doi = meta_doi.attrs['content']
+        return doi
+
+    def find_abstract(html: BeautifulSoup) -> str:
+        meta_abstract = html.find("meta", {"name": "DC.Description"})
+        abstract = meta_abstract.attrs['content']
+        return abstract
+
+    def find_keywords(html: BeautifulSoup) -> List[str]:
+        result = []
+        for meta_keyword in html.findAll("meta", {"name": "DC.Subject"}):
+            keywords = meta_keyword.attrs['content']
+            for keyword in keywords.split(","):
+                result.append(keyword)
+        return result
+
+    def find_authors(html: BeautifulSoup) -> List[AuthorScraperResponse]:
+        metadata = html.findAll("head meta[name^=\"citation_author\"]")
+        # In the metadata there begins a list of entries of names "citation_author" and "citation_author_institution".
+        # Each "citation_author_institution" entry refers to the author stated in the preceding entry.
+        #
+        # The approach below iterates over these entries and creates a dict, which is then mapped to authors list.
+
+        authors = {}
+        last_author = None
+        for entry in metadata:
+            if entry.attrs['name'] == 'citation_author':
+                # New author entry. The following institution will relate to them.
+                name = entry.attrs['content']
+                authors[name] = None
+                last_author = name
+
+            elif entry.attrs['name'] == 'citation_author_institution':
+                # Institution related to the last author
+                inst = entry.attrs['content']
+
+                assert last_author is not None
+                if authors[last_author] is not None:
+                    logging.log(logging.WARNING, f"Multiple institutions for one author: (author: {last_author}, inst1: {authors[last_author]}, inst2: {inst}")
+
+                authors[last_author] = inst
+
+        result = []
+        for author, institution in authors.items():
+            result.append(AuthorScraperResponse(author, institution))
+        return result
+
+    def find_pdf_url(html: BeautifulSoup) -> str:
+        pdf_url_a = html.find("div.download a")
+        pdf_url = pdf_url_a.attrs['href']
+        return pdf_url
+
     r_paper = requests.get(url_paper)
 
     if r_paper.status_code != HTTPStatus.OK:
         raise Exception(f"Paper {{ {url_paper} }} read error")
 
     soup_paper = BeautifulSoup(r_paper.text, features=BEAUTIFUL_SOUP_FEATURES)
+    scraped = PaperScraperResponse(
+        url=url_paper,
+        abstract_text=find_abstract(soup_paper),
+        doi=find_doi(soup_paper),
+        keywords=find_keywords(soup_paper),
+        pdf_url=find_pdf_url(soup_paper),
+        authors=find_authors(soup_paper)
+    )
 
-    meta_doi = soup_paper.find("meta", {"name": "citation_doi"})
-    doi = meta_doi.attrs['content'] if meta_doi is not None else ""
-
-    q.put(PaperScraperResponse(doi, ""))
+    q.put(scraped)
