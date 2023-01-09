@@ -2,6 +2,7 @@ import requests
 
 DOI_PREFIX = "https://doi.org/"
 ORCID_SEARCH_TEMPLATE = "https://pub.orcid.org/v3.0/expanded-search/?q=%s&start=0&rows=10"
+ROR_SEARCH_TEMPLATE = "https://api.ror.org/organizations?page=1&query=%s"
 
 
 def call_doi_api(doi: str) -> requests.Response:

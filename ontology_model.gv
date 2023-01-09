@@ -45,7 +45,7 @@ digraph SCPE_Onto {
     </TR>
     <TR>
         <TD ALIGN="right">frbr:</TD>
-        <TD ALIGN="left">&lt;http://purl.org/spar/frbr&gt;</TD>
+        <TD ALIGN="left">&lt;http://purl.org/spar/frbr/&gt;</TD>
     </TR>
     <TR>
         <TD ALIGN="right">fabio:</TD>
