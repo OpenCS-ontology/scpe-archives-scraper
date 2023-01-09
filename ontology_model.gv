@@ -8,6 +8,10 @@ digraph SCPE_Onto {
         <TD ALIGN="left">??? our URI for classes</TD>
     </TR>
     <TR>
+        <TD ALIGN="right">scrapdt:</TD>
+        <TD ALIGN="left">??? our URI for datatypes (in XML)</TD>
+    </TR>
+    <TR>
         <TD ALIGN="right">xsd:</TD>
         <TD ALIGN="left">&lt;http://www.w3.org/2001/XMLSchema#&gt;</TD>
     </TR>
@@ -18,6 +22,14 @@ digraph SCPE_Onto {
     <TR>
         <TD ALIGN="right">owl:</TD>
         <TD ALIGN="left">&lt;http://www.w3.org/2002/07/owl#&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">skos:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/2004/02/skos/core#&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">org:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/ns/org#&gt;</TD>
     </TR>
     <TR>
         <TD ALIGN="right">dcterms:</TD>
@@ -69,8 +81,6 @@ digraph SCPE_Onto {
         ":Paper" -> "xsd:integer2" [label="prism:startingPage"];
         ":Paper" -> "xsd:integer3" [label="prism:endingPage"];
         
-        "fabio:BibliographicMetadata"
-        
         "fabio:DigitalManifestation" [shape=box, fillcolor=white];
         ":Paper" -> "fabio:DigitalManifestation" [label="frbr:realization"];
         "fabio:DigitalManifestation" -> "xsd:anyURI2" [label="fabio:hasURL"];
@@ -91,5 +101,31 @@ digraph SCPE_Onto {
         ":Author" -> "xsd:string4" [label="foaf:givenName"];
         ":Author" -> "xsd:string5" [label="foaf:familyName"];
         ":Author" -> "xsd:string6" [label="dbo:orcidId"];
+        
+        ":Author" -> ":Affiliation" [label="org:memberOf"];
+    }
+    
+    subgraph cluster_affiliation {
+        label = "Affiliation";
+        node [shape=parallelogram, fillcolor=limegreen, style=filled];
+        edge [shape=onormal];
+        
+        ":Affiliation" [shape=box, fillcolor=yellow, style=filled];
+        "org:Organization" [shape=box, fillcolor=white];
+        ":Affiliation" -> "org:Organization" [label="rdfs:subClassOf"];
+        
+        ":Affiliation" -> "xsd:string8" [label="skos:prefLabel"];
+        ":Affiliation" -> "xsd:simpleType" [label="org:identifier"];
+    }
+    
+    subgraph cluster_datatypes {
+        label = "Datatypes";
+        node [shape=parallelogram, fillcolor=limegreen, style=filled];
+        
+        "scrapdt:ROR";
+        "scrapdt:GRID";
+        "scrapdt:ISNI";
+        "scrapdt:CrossrefFunderId";
+        "scrapdt:Wikidata";
     }
 }
