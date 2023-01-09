@@ -83,6 +83,10 @@ digraph SCPE_Onto {
         edge [shape=onormal];
 
         ":Author" [shape=box, fillcolor=yellow, style=filled];
+        "foaf:Person" [shape=box, fillcolor=white];
+        ":Author" -> "foaf:Person" [label="rdfs:subClassOf"];
+        "dcterms:Agent" [shape=box, fillcolor=white];
+        ":Author" -> "dcterms:Agent" [label="rdfs:subClassOf"];
 
         ":Author" -> "xsd:string4" [label="foaf:givenName"];
         ":Author" -> "xsd:string5" [label="foaf:familyName"];
