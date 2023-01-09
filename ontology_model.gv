@@ -12,12 +12,12 @@ digraph SCPE_Onto {
         <TD ALIGN="left">&lt;http://www.w3.org/2001/XMLSchema#&gt;</TD>
     </TR>
     <TR>
-        <TD ALIGN="right">datacite:</TD>
-        <TD ALIGN="left">&lt;http://purl.org/spar/datacite/&gt;</TD>
+        <TD ALIGN="right">rdfs:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</TD>
     </TR>
     <TR>
-        <TD ALIGN="right">fabio:</TD>
-        <TD ALIGN="left">&lt;http://purl.org/spar/fabio/&gt;</TD>
+        <TD ALIGN="right">owl:</TD>
+        <TD ALIGN="left">&lt;http://www.w3.org/2002/07/owl#&gt;</TD>
     </TR>
     <TR>
         <TD ALIGN="right">dcterms:</TD>
@@ -28,24 +28,21 @@ digraph SCPE_Onto {
         <TD ALIGN="left">&lt;http://xmlns.com/foaf/0.1/&gt;</TD>
     </TR>
     <TR>
-        <TD ALIGN="right">schema:</TD>
-        <TD ALIGN="left">&lt;https://schema.org/&gt;</TD>
+        <TD ALIGN="right">prism:</TD>
+        <TD ALIGN="left">&lt;http://prismstandard.org/namespaces/basic/2.0/&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">frbr:</TD>
+        <TD ALIGN="left">&lt;http://purl.org/spar/frbr&gt;</TD>
+    </TR>
+    <TR>
+        <TD ALIGN="right">fabio:</TD>
+        <TD ALIGN="left">&lt;http://purl.org/spar/fabio/&gt;</TD>
     </TR>
     <TR>
         <TD ALIGN="right">dbo:</TD>
         <TD ALIGN="left">&lt;http://dbpedia.org/ontology/&gt;</TD>
     </TR>
-
-    <!--
-    <TR>
-        <TD ALIGN="right">rdfs:</TD>
-        <TD ALIGN="left">&lt;http://www.w3.org/2000/01/rdf-schema#&gt;</TD>
-    </TR>
-    <TR>
-        <TD ALIGN="right">owl:</TD>
-        <TD ALIGN="left">&lt;http://www.w3.org/2002/07/owl#&gt;</TD>
-    </TR>
-    -->
 </TABLE></FONT>>];
         label = Prefixes;
         style = filled
@@ -58,20 +55,26 @@ digraph SCPE_Onto {
         edge [shape=onormal];
 
         ":Paper" [shape=box, fillcolor=yellow, style=filled];
-        #"schema:CreativeWork" [shape=box, fillcolor=white];
-        #":Paper" -> "schema:CreativeWork" [label="owl:sameAs"];
+        "fabio:ResearchPaper" [shape=box, fillcolor=white];
+        ":Paper" -> "fabio:ResearchPaper" [label="owl:equivalentClass"];
+        
+        ":Paper" -> "xsd:string1" [label="dcterms:abstract"];
+        ":Paper" -> "xsd:string2" [label="dcterms:title"];
+        ":Paper" -> "xsd:string3" [label="prism:doi"];
+        ":Paper" -> "xsd:anyURI1" [label="fabio:hasURL"];
 
-        ":Paper" -> "xsd:string" [label="dcterms:title"];
-        ":Paper" -> "xsd:string" [label="dcterms:abstract"];
-
-        ":Paper" -> "xsd:string" [label="datacite:doi"];
-        ":Paper" -> "xsd:anyURI" [label="fabio:hasURL"];
-
-        ":Paper" -> ":Author" [label="schema:author", shape=normal];
-        ":Paper" -> "schema:Text" [label="schema:keywords"];
-        ":Paper" -> "xsd:integer" [label="schema:volumeNumber"];
-        ":Paper" -> "xsd:integer" [label="schema:pageStart"];
-        ":Paper" -> "xsd:integer" [label="schema:pageEnd"];
+        ":Paper" -> ":Author" [label="dcterms:author", shape=normal];
+        ":Paper" -> "xsd:string7" [label="prism:keyword"];
+        ":Paper" -> "xsd:integer1" [label="prism:volume"];
+        ":Paper" -> "xsd:integer2" [label="prism:startingPage"];
+        ":Paper" -> "xsd:integer3" [label="prism:endingPage"];
+        
+        "fabio:BibliographicMetadata"
+        
+        "fabio:DigitalManifestation" [shape=box, fillcolor=white];
+        ":Paper" -> "fabio:DigitalManifestation" [label="frbr:realization"];
+        "fabio:DigitalManifestation" -> "xsd:anyURI2" [label="fabio:hasURL"];
+        "fabio:DigitalManifestation" -> "xsd:string" [label="dcterms:format"];
     }
 
     subgraph cluster_author {
@@ -81,8 +84,8 @@ digraph SCPE_Onto {
 
         ":Author" [shape=box, fillcolor=yellow, style=filled];
 
-        ":Author" -> "xsd:string" [label="foaf:givenName"];
-        ":Author" -> "xsd:string" [label="foaf:givenName"];
-        ":Author" -> "xsd:string" [label="dbo:orcidId"];
+        ":Author" -> "xsd:string4" [label="foaf:givenName"];
+        ":Author" -> "xsd:string5" [label="foaf:familyName"];
+        ":Author" -> "xsd:string6" [label="dbo:orcidId"];
     }
 }
