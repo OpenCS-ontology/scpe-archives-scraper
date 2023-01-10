@@ -14,6 +14,11 @@ BEAUTIFUL_SOUP_FEATURES = "html.parser"
 
 @dataclass
 class AuthorScraperResponse:
+    """
+    Model representing the scraped data about the author.
+    Mainly used to get information about affiliation, which cannot be acquired from DOI api.
+    """
+
     # citation_author
     name: str
 
@@ -23,6 +28,10 @@ class AuthorScraperResponse:
 
 @dataclass
 class PaperScraperResponse:
+    """
+    Model representing the scraped data about the paper.
+    """
+
     # Page's url
     url: str
 
@@ -42,6 +51,12 @@ class PaperScraperResponse:
 
 
 def get_paper_queue() -> Queue[PaperScraperResponse]:
+    """
+    Get a queue into which papers will be scraped.
+    Sometimes dummy papers can appear. Their DOI is an empty string, and they should be ignored.
+    :return: Queue on which the scraped papers will appear periodically.
+    """
+
     q = Queue()
     t = Thread(target=scrape_all_doi, args=[q])
     t.start()
@@ -54,6 +69,7 @@ def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:
     :param q: Parallel listener into which to return found data.
     :return: List of all DOIs in SCPE Archive.
     """
+
     r_archives = requests.get(URL_ARCHIVES)
 
     if r_archives.status_code != HTTPStatus.OK:
@@ -65,7 +81,7 @@ def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:
     urls_issue = map(lambda l: l.attrs['href'], links_issue)
 
     for url_issue in urls_issue:
-        scrape_issue(q, url_issue)
+        scrape_issue(q, 'https:' + url_issue)
 
 
 def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
@@ -75,6 +91,7 @@ def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
     :param url_issue: URL to the issue on scpe.org.
     :return: List of all DOIs present in this issue.
     """
+
     r_issue = requests.get(url_issue)
 
     if r_issue.status_code != HTTPStatus.OK:
@@ -86,7 +103,7 @@ def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
     urls_paper = map(lambda l: l.attrs['href'], links_paper)
 
     for url_paper in urls_paper:
-        scrape_paper(q, url_paper)
+        scrape_paper(q, 'https:' + url_paper)
 
 
 def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
@@ -116,7 +133,7 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
         return result
 
     def find_authors(html: BeautifulSoup) -> List[AuthorScraperResponse]:
-        metadata = html.findAll("head meta[name^=\"citation_author\"]")
+        metadata = html.select("head meta[name^=\"citation_author\"]")
         # In the metadata there begins a list of entries of names "citation_author" and "citation_author_institution".
         # Each "citation_author_institution" entry refers to the author stated in the preceding entry.
         #
@@ -147,9 +164,9 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
         return result
 
     def find_pdf_url(html: BeautifulSoup) -> str:
-        pdf_url_a = html.find("div.download a")
+        pdf_url_a = html.select_one("div.download a")
         pdf_url = pdf_url_a.attrs['href']
-        return pdf_url
+        return 'https:' + pdf_url
 
     r_paper = requests.get(url_paper)
 

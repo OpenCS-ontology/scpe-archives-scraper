@@ -132,8 +132,6 @@ class PaperModel(IdEquivalent):
 
     # prism:volume -> xsd:integer
     volume: int
-    # prism:issueIdentifier -> xsd:string
-    issue: int
     # prism:startingPage -> xsd:integer
     startingPage: int
     # prism:endingPage -> xsd:integer

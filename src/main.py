@@ -1,26 +1,33 @@
 from http import HTTPStatus
 from queue import Empty
 
-from api_caller import call_doi_api
+from api_caller import call_doi_api, try_get_orcid
 from paper_scraper import get_paper_queue
-from turtle_decoder import decode_turtle
+from doi_api_model import doi_api_decoder
 
 
 def main():
     paper_q = get_paper_queue()
     try:
         while True:
+            # Basic paper model
             scraped_paper = paper_q.get(block=True, timeout=10)
 
             # For timeout to make sense, sometimes a dummy element is thrown in the queue.
             if scraped_paper.doi == "":
                 continue
 
-            api_response = call_doi_api(scraped_paper.doi)
-            if api_response.status_code != HTTPStatus.OK:
-                raise ConnectionError(f'Response from API not OK: {api_response.status_code}')
+            # DOI api model
+            doi_api_response = call_doi_api(scraped_paper.doi)
+            if doi_api_response.status_code != HTTPStatus.OK:
+                raise ConnectionError(f'Response from API not OK: {doi_api_response.status_code}')
+            #doi_response_model = doi_api_decoder(doi_api_response.content)
 
-            decode_turtle(api_response.content)
+            # Supplement missing authors' ORCIDs
+            for author in scraped_paper.authors:
+                print(try_get_orcid(author.name))
+
+
 
     except Empty:
         pass
