@@ -43,8 +43,6 @@ class RDFSerializer:
         paper_id = paper.get_id()
         paper_uri = URIRef(f":{paper_id}")
 
-        pdf_realization = self._add_pdf_bnode(paper)
-
         # Pair to be assigned to the specific paper.
         # In N3 (s p o) it's (p o), with the paper as the s.
         pairs = [
@@ -56,8 +54,11 @@ class RDFSerializer:
             (self._PRISM.startingPage, Literal(paper.startingPage)),
             (self._PRISM.endingPage, Literal(paper.endingPage)),
             (self._FABIO.hasURL, Literal(paper.url)),
-            (self._FRBR.realization, pdf_realization),
         ]
+
+        if paper.pdf_url is not None:
+            pdf_realization = self._add_pdf_bnode(paper)
+            pairs.append((self._FRBR.realization, pdf_realization))
 
         for keyword in paper.keywords:
             keyword_list = keyword.split(",")

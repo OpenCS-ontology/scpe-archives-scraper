@@ -45,7 +45,7 @@ class PaperScraperResponse:
     keywords: List[str]
 
     # Cannot be acquired from meta
-    pdf_url: str
+    pdf_url: Optional[str]
 
     authors: List[AuthorScraperResponse]
 
@@ -163,8 +163,11 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
             result.append(AuthorScraperResponse(author, institution))
         return result
 
-    def find_pdf_url(html: BeautifulSoup) -> str:
+    def find_pdf_url(html: BeautifulSoup) -> Optional[str]:
         pdf_url_a = html.select_one("div.download a")
+        if pdf_url_a is None:
+            return None
+
         pdf_url = pdf_url_a.attrs['href']
         return 'https:' + pdf_url
 

@@ -1,4 +1,7 @@
+from typing import Optional
+
 import requests
+
 
 DOI_PREFIX = "https://doi.org/"
 
@@ -12,10 +15,10 @@ def call_doi_api(doi: str) -> requests.Response:
     return r_rdf
 
 
-def try_get_orcid(author_name: str) -> str:
-    url_call = ORCID_SEARCH_TEMPLATE % author_name
-    r_json = requests.get(url_call)
-
-    return ""
+# def try_get_orcid(first_name: str, last_name: str, affiliation: Optional[str]) -> Optional[str]:
+#     url_call = ORCID_SEARCH_TEMPLATE % author_name
+#     r_json = requests.get(url_call)
+#
+#     return None
 
 
