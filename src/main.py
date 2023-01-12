@@ -1,9 +1,11 @@
 from http import HTTPStatus
 from queue import Empty
 
-from api_caller import call_doi_api  # , try_get_orcid
-from paper_scraper import get_paper_queue
+from api_caller import call_doi_api
 from doi_api_model import doi_api_decoder
+from model import DataModel
+from model_factory import create_paper_model
+from paper_scraper import get_paper_queue
 
 
 def main():
@@ -21,19 +23,15 @@ def main():
             doi_api_response = call_doi_api(scraped_paper.doi)
             if doi_api_response.status_code != HTTPStatus.OK:
                 raise ConnectionError(f'Response from API not OK: {doi_api_response.status_code}')
-            #doi_response_model = doi_api_decoder(doi_api_response.content)
+            doi_response_paper_model = doi_api_decoder(doi_api_response.content)
 
-            # Supplement missing authors' ORCIDs
-            # for author in scraped_paper.authors:
-            #     # TODO: Change the try_get_orcid arguments after DOI scraping is implemented.
-            #     names = author.name.split(sep=' ')
-            #     first_name = names[0]
-            #     last_name = names[-1]
-            #     affiliation = author.affiliation
-            #
-            #     orcid = try_get_orcid(first_name, last_name, affiliation)
-            #     print(orcid)
+            # Here, ORCID could be supplemented for authors and ROR for affiliations (as well as GRID).
+            # However, it won't be implemented right now, as incorrect results could arise.
 
+            paper_model = create_paper_model(scraped_paper, doi_response_paper_model)
+            data_model = DataModel(paper_model.get_id() + '.ttl')
+            data_model.add_paper(paper_model)
+            data_model.serialize()
     except Empty:
         pass
 

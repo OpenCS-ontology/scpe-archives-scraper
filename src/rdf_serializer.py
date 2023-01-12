@@ -1,5 +1,7 @@
-from rdflib.graph import Graph, URIRef, Literal, BNode
-from rdflib.namespace import Namespace, XSD, DCTERMS, FOAF, RDF, ORG, SKOS, RDFS, OWL
+from rdflib import XSD, DCTERMS, FOAF, RDF, ORG, SKOS, RDFS, OWL
+from rdflib.graph import Graph
+from rdflib.namespace import Namespace
+from rdflib.term import URIRef, Literal, BNode
 
 import model
 

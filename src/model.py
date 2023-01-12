@@ -157,9 +157,15 @@ class DataModel:
 
     def add_paper(self, paper: PaperModel):
         self._papers.add(paper)
+        for author in paper.authors:
+            if author not in self._authors:
+                self.add_author(author)
 
     def add_author(self, author: AuthorModel):
         self._authors.add(author)
+        for affiliation in author.affiliations:
+            if affiliation not in self._affiliations:
+                self.add_affiliation(affiliation)
 
     def add_affiliation(self, affiliation: AffiliationModel):
         self._affiliations.add(affiliation)
