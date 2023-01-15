@@ -52,10 +52,9 @@ def doi_api_decoder(data: bytes) -> PaperDoiResponse:
                 orcid = other_uri[where_orcid + len(ORCID_STRING) + 1:len(other_uri) - 1]
 
             # Get the remaining info
-            name = list(turtle.search_triples(author_uri, FOAF.name, None))[0][2]
-            name = strip_quotes(name)
-            given_name = list(turtle.search_triples(author_uri, FOAF.givenName, None))[0][2]
-            family_name = list(turtle.search_triples(author_uri, FOAF.familyName, None))[0][2]
+            name = strip_quotes(list(turtle.search_triples(author_uri, FOAF.name, None))[0][2])
+            given_name = strip_quotes(list(turtle.search_triples(author_uri, FOAF.givenName, None))[0][2])
+            family_name = strip_quotes(list(turtle.search_triples(author_uri, FOAF.familyName, None))[0][2])
 
             author = AuthorDoiResponse(
                 orcid=orcid,

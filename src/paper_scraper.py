@@ -156,7 +156,7 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
                 if authors[last_author] is not None:
                     logging.log(logging.WARNING, f"Multiple institutions for one author: (author: {last_author}, inst1: {authors[last_author]}, inst2: {inst}")
 
-                authors[last_author] = inst
+                authors[last_author] = inst.strip("\"").replace(" ", "_")
 
         result = []
         for author, institution in authors.items():

@@ -1,5 +1,6 @@
 from rdflib import XSD, DCTERMS, FOAF, RDF, ORG, SKOS, RDFS, OWL
 from rdflib.graph import Graph
+from rdflib.namespace import Namespace
 from rdflib.term import URIRef, Literal, BNode
 
 import model
@@ -8,12 +9,15 @@ from rdf_namespaces import DBO, FABIO, FRBR, PRISM
 
 class RDFSerializer:
     def __init__(self):
-        self._URI_BASE = URIRef("https://opencs.scpe.scraper.com/")
-        self._URI_DT = URIRef("https://opencs.scpe.scraper.com/datatypes#")
+        URI_BASE = URIRef("https://opencs.scpe.scraper.com/")
+        self._BASE = Namespace(URI_BASE)
+
+        URI_DT = URIRef("https://opencs.scpe.scraper.com/datatypes#")
+        self._SCRAPDT = Namespace(URI_DT)
 
         self._g = Graph()
-        self._g.bind("", self._URI_BASE)
-        self._g.bind("scrapdt", self._URI_DT)
+        self._g.bind("", self._BASE)
+        self._g.bind("scrapdt", self._SCRAPDT)
         self._g.bind("xsd", XSD)
         self._g.bind("dcterms", DCTERMS)
         self._g.bind("foaf", FOAF)
@@ -38,12 +42,12 @@ class RDFSerializer:
         # TODO: Run this code and fix, I probably missed something important
         #       and messed up the syntax. :|
         paper_id = paper.get_id()
-        paper_uri = URIRef(f":{paper_id}")
+        paper_node = self._BASE[paper_id]
 
         # Pair to be assigned to the specific paper.
         # In N3 (s p o) it's (p o), with the paper as the s.
         pairs = [
-            (RDF.type, URIRef(f":Paper")),
+            (RDF.type, self._BASE["Paper"]),
             (PRISM.doi, Literal(paper.doi)),
             (DCTERMS.abstract, Literal(paper.abstract_text)),
             (DCTERMS.title, Literal(paper.title)),
@@ -63,38 +67,37 @@ class RDFSerializer:
                 pairs.append((PRISM.keyword, Literal(k)))
 
         for author in paper.authors:
-            pairs.append((DCTERMS.author, URIRef(f":{author.get_id()}")))
+            pairs.append((DCTERMS.creator, self._BASE[author.get_id()]))
 
         for p, o in pairs:
-            self._g.add((paper_uri, p, o))
+            self._g.add((paper_node, p, o))
 
     def accept_author(self, author: model.AuthorModel):
         author_id = author.get_id()
-        author_uri = URIRef(f":{author_id}")
+        author_node = self._BASE[author_id]
 
         pairs = [
-            (RDF.type, URIRef(f":Author")),
+            (RDF.type, self._BASE["Author"]),
             (FOAF.givenName, Literal(author.given_name)),
             (FOAF.familyName, Literal(author.family_name)),
             (DBO.orcidId, Literal(author.orcid)),
         ]
 
         for affiliation in author.affiliations:
-            pairs.append((ORG.memberOf, URIRef(f":{affiliation.get_id()}")))
+            pairs.append((ORG.memberOf, self._BASE[affiliation.get_id()]))
 
         for p, o in pairs:
-            self._g.add((author_uri, p, o))
+            self._g.add((author_node, p, o))
 
     def _format_identifier(self, identifier: model.IdentifierModel) -> Literal:
-        # TODO: Create a proper namespace for scrapdt and replace this clunky URIRef.
-        return Literal(identifier.value, datatype=URIRef(f"{self._URI_DT.lower()}:{identifier.type_val}"))
+        return Literal(identifier.value, datatype=self._SCRAPDT[identifier.type_val])
 
     def accept_affiliation(self, affiliation: model.AffiliationModel):
         affiliation_id = affiliation.get_id()
-        affiliation_uri = URIRef(f":{affiliation_id}")
+        affiliation_node = self._BASE[affiliation_id]
 
         pairs = [
-            (RDF.type, URIRef(f":Affiliation")),
+            (RDF.type, self._BASE["Affiliation"]),
             (SKOS.prefLabel, Literal(affiliation.name)),
         ]
 
@@ -102,7 +105,7 @@ class RDFSerializer:
             pairs.append((ORG.identifier, self._format_identifier(identifier)))
 
         for p, o in pairs:
-            self._g.add((affiliation_uri, p, o))
+            self._g.add((affiliation_node, p, o))
 
     def serialize(self, destination: str):
         self._g.serialize(destination=destination, format="turtle")

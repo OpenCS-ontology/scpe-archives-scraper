@@ -52,7 +52,8 @@ class AffiliationModel:
             return False
 
         if len(self.identifiers) == 0 or len(other.identifiers) == 0:
-            logging.log(logging.WARN, f"Comparison of affiliations without identifiers (self: {len(self.identifiers)}, other: {len(other.identifiers)})")
+            # Identifiers are not supported in this version.
+            # logging.log(logging.WARN, f"Comparison of affiliations without identifiers (self: {len(self.identifiers)}, other: {len(other.identifiers)})")
             return self.name == other.name
 
         for identifier in self.identifiers:

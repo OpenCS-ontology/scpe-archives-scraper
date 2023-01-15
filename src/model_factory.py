@@ -1,5 +1,7 @@
 from typing import List
 
+from urllib.parse import quote
+
 import model
 import doi_api_model as doi_api
 import paper_scraper as scraper
@@ -20,7 +22,7 @@ def create_author_model(scraper_author: scraper.AuthorScraperResponse,
     result_affiliations = set()
     if scraper_author.affiliation is not None:
         affiliation = model.AffiliationModel(
-            name=scraper_author.affiliation,
+            name=quote(scraper_author.affiliation),
             # Identifiers are left empty, because the data is not provided by SCPE website.
             identifiers=[]
         )
@@ -28,8 +30,8 @@ def create_author_model(scraper_author: scraper.AuthorScraperResponse,
 
     result = model.AuthorModel(
         affiliations=result_affiliations,
-        family_name=doi_api_author.family_name,
-        given_name=doi_api_author.given_name,
+        family_name=quote(doi_api_author.family_name),
+        given_name=quote(doi_api_author.given_name),
         orcid=doi_api_author.orcid
     )
     return result
@@ -52,7 +54,8 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
     doi_author_dict = {author.name: author for author in doi_api_paper.authors}
 
     if sorted(scraper_author_dict.keys()) != sorted(doi_author_dict.keys()):
-        raise RuntimeError("Authors' names mismatch")
+        # TODO: New method for authors, as mismatches happen. Just merge these dicts.
+        raise RuntimeError(f"Authors' names mismatch.\nFrom SCPE scraper: {sorted(scraper_author_dict.keys())}\nFrom DOI api scraper: {sorted(doi_author_dict.keys())}")
 
     zipped_authors = [
         (author, doi_author_dict[author.name])
@@ -73,7 +76,7 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
         keywords=set(scraper_paper.keywords),
         pdf_url=scraper_paper.pdf_url,
         startingPage=int(doi_api_paper.starting_page),
-        title=doi_api_paper.title,
+        title=quote(doi_api_paper.title.strip('"')),
         url=scraper_paper.url,
         volume=int(doi_api_paper.volume)
     )
