@@ -1,20 +1,15 @@
 from rdflib import XSD, DCTERMS, FOAF, RDF, ORG, SKOS, RDFS, OWL
 from rdflib.graph import Graph
-from rdflib.namespace import Namespace
 from rdflib.term import URIRef, Literal, BNode
 
 import model
+from rdf_namespaces import DBO, FABIO, FRBR, PRISM
 
 
 class RDFSerializer:
     def __init__(self):
         self._URI_BASE = URIRef("https://opencs.scpe.scraper.com/")
         self._URI_DT = URIRef("https://opencs.scpe.scraper.com/datatypes#")
-
-        self._FABIO = Namespace("http://purl.org/spar/fabio/")
-        self._DBO = Namespace("http://dbpedia.org/ontology/")
-        self._PRISM = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
-        self._FRBR = Namespace("http://purl.org/spar/frbr")
 
         self._g = Graph()
         self._g.bind("", self._URI_BASE)
@@ -27,16 +22,16 @@ class RDFSerializer:
         self._g.bind("skos", SKOS)
         self._g.bind("rdfs", RDFS)
         self._g.bind("owl", OWL)
-        self._g.bind("fabio", self._FABIO)
-        self._g.bind("dbo", self._DBO)
-        self._g.bind("prism", self._PRISM)
-        self._g.bind("frbr", self._FRBR)
+        self._g.bind("fabio", FABIO)
+        self._g.bind("dbo", DBO)
+        self._g.bind("prism", PRISM)
+        self._g.bind("frbr", FRBR)
 
     def _add_pdf_bnode(self, paper: model.PaperModel) -> BNode:
         bn = BNode()
-        self._g.add((bn, RDF.type, self._FABIO.DigitalManifestation))
+        self._g.add((bn, RDF.type, FABIO.DigitalManifestation))
         self._g.add((bn, DCTERMS.format, Literal("application/pdf")))
-        self._g.add((bn, self._FABIO.hasURL, URIRef(paper.pdf_url)))
+        self._g.add((bn, FABIO.hasURL, URIRef(paper.pdf_url)))
         return bn
 
     def accept_paper(self, paper: model.PaperModel):
@@ -49,23 +44,23 @@ class RDFSerializer:
         # In N3 (s p o) it's (p o), with the paper as the s.
         pairs = [
             (RDF.type, URIRef(f":Paper")),
-            (self._PRISM.doi, Literal(paper.doi)),
+            (PRISM.doi, Literal(paper.doi)),
             (DCTERMS.abstract, Literal(paper.abstract_text)),
             (DCTERMS.title, Literal(paper.title)),
-            (self._PRISM.volume, Literal(paper.volume)),
-            (self._PRISM.startingPage, Literal(paper.startingPage)),
-            (self._PRISM.endingPage, Literal(paper.endingPage)),
-            (self._FABIO.hasURL, Literal(paper.url)),
+            (PRISM.volume, Literal(paper.volume)),
+            (PRISM.startingPage, Literal(paper.startingPage)),
+            (PRISM.endingPage, Literal(paper.endingPage)),
+            (FABIO.hasURL, Literal(paper.url)),
         ]
 
         if paper.pdf_url is not None:
             pdf_realization = self._add_pdf_bnode(paper)
-            pairs.append((self._FRBR.realization, pdf_realization))
+            pairs.append((FRBR.realization, pdf_realization))
 
         for keyword in paper.keywords:
             keyword_list = keyword.split(",")
             for k in keyword_list:
-                pairs.append((self._PRISM.keyword, Literal(k)))
+                pairs.append((PRISM.keyword, Literal(k)))
 
         for author in paper.authors:
             pairs.append((DCTERMS.author, URIRef(f":{author.get_id()}")))
@@ -81,7 +76,7 @@ class RDFSerializer:
             (RDF.type, URIRef(f":Author")),
             (FOAF.givenName, Literal(author.given_name)),
             (FOAF.familyName, Literal(author.family_name)),
-            (self._DBO.orcidId, Literal(author.orcid)),
+            (DBO.orcidId, Literal(author.orcid)),
         ]
 
         for affiliation in author.affiliations:

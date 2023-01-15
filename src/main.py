@@ -6,6 +6,7 @@ from doi_api_model import doi_api_decoder
 from model import DataModel
 from model_factory import create_paper_model
 from paper_scraper import get_paper_queue
+from rdf_serializer import RDFSerializer
 
 
 def main():
@@ -31,7 +32,7 @@ def main():
             paper_model = create_paper_model(scraped_paper, doi_response_paper_model)
             data_model = DataModel(paper_model.get_id() + '.ttl')
             data_model.add_paper(paper_model)
-            data_model.serialize()
+            data_model.serialize(RDFSerializer())
     except Empty:
         pass
 

@@ -4,8 +4,6 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List, Set
 
-from rdf_serializer import RDFSerializer
-
 
 _SCRAPER_DEST_DIR = str(os.environ.get("SCRAPER_DEST_DIR"))
 
@@ -170,8 +168,7 @@ class DataModel:
     def add_affiliation(self, affiliation: AffiliationModel):
         self._affiliations.add(affiliation)
 
-    def serialize(self):
-        serializer = RDFSerializer()
+    def serialize(self, serializer: "RDFSerializer"):
         for affiliation in self._affiliations:
             serializer.accept_affiliation(affiliation)
         for author in self._authors:
