@@ -1,8 +1,7 @@
-FROM alpine
-#^ Version of alpine
+FROM alpine:3.17.1
 
-# Packaging the project, building it into some executable package
-# Moving the package
+WORKDIR /
+COPY main /main
+ENV SCRAPER_DEST_DIR=/target
 
-volu
-ENV SCRAPER_DEST_DIR=
+CMD /main
