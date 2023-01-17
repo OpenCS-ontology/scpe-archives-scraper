@@ -75,7 +75,7 @@ digraph SCPE_Onto {
         ":Paper" -> "xsd:string3" [label="prism:doi"];
         ":Paper" -> "xsd:anyURI1" [label="fabio:hasURL"];
 
-        ":Paper" -> ":Author" [label="dcterms:author", shape=normal];
+        ":Paper" -> ":Author" [label="dcterms:creator", shape=normal];
         ":Paper" -> "xsd:string7" [label="prism:keyword"];
         ":Paper" -> "xsd:integer1" [label="prism:volume"];
         ":Paper" -> "xsd:integer2" [label="prism:startingPage"];
@@ -115,17 +115,17 @@ digraph SCPE_Onto {
         ":Affiliation" -> "org:Organization" [label="rdfs:subClassOf"];
         
         ":Affiliation" -> "xsd:string8" [label="skos:prefLabel"];
-        ":Affiliation" -> "xsd:simpleType" [label="org:identifier"];
+ #       ":Affiliation" -> "xsd:simpleType" [label="org:identifier"];
     }
     
-    subgraph cluster_datatypes {
-        label = "Datatypes";
-        node [shape=parallelogram, fillcolor=limegreen, style=filled];
-        
-        "scrapdt:ROR";
-        "scrapdt:GRID";
-        "scrapdt:ISNI";
-        "scrapdt:CrossrefFunderId";
-        "scrapdt:Wikidata";
-    }
+ #   subgraph cluster_datatypes {
+ #       label = "Datatypes";
+ #       node [shape=parallelogram, fillcolor=limegreen, style=filled];
+ #       
+ #       "scrapdt:ROR";
+ #       "scrapdt:GRID";
+ #       "scrapdt:ISNI";
+ #       "scrapdt:CrossrefFunderId";
+ #       "scrapdt:Wikidata";
+ #   }
 }
