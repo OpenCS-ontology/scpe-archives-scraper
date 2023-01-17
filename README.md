@@ -17,6 +17,7 @@ The scraper can be run with docker (`./docker_build.sh`, `./docker_run.sh`) or l
 	* `prism:doi` - DOI of the paper.
 	* `dcterms:title` - Title.
 	* `dcterms:abstract` - Abstract.
+	* `dcterms:created` - Creation date of the paper.
 	* `prism:volume` - Volume in SCPE journal. Need not to be a number, for example Roman numerals may be used (e.g. "iii").
 	* `prism:startingPage` - Starting page in the volume. Need not to be a number.
 	* `prism:endingPage` - Ending page in the volume. Need not to be a number.
