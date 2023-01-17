@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from urllib.parse import quote
 
@@ -7,8 +7,8 @@ import doi_api_model as doi_api
 import paper_scraper as scraper
 
 
-def create_author_model(scraper_author: scraper.AuthorScraperResponse,
-                        doi_api_author: doi_api.AuthorDoiResponse
+def create_author_model(scraper_author: Optional[scraper.AuthorScraperResponse],
+                        doi_api_author: Optional[doi_api.AuthorDoiResponse]
                         ) -> model.AuthorModel:
     """
     Factory method for model.AuthorModel, combining information from two
@@ -19,8 +19,11 @@ def create_author_model(scraper_author: scraper.AuthorScraperResponse,
     :return: The combined author model object.
     """
 
+    if scraper_author is None and doi_api_author is None:
+        raise RuntimeError("No data to create author from")
+
     result_affiliations = set()
-    if scraper_author.affiliation is not None:
+    if scraper_author is not None and scraper_author.affiliation is not None:
         affiliation = model.AffiliationModel(
             name=quote(scraper_author.affiliation),
             # Identifiers are left empty, because the data is not provided by SCPE website.
@@ -28,10 +31,17 @@ def create_author_model(scraper_author: scraper.AuthorScraperResponse,
         )
         result_affiliations.add(affiliation)
 
+    family_name = None if doi_api_author is None else quote(doi_api_author.family_name)
+    given_name = None if doi_api_author is None else quote(doi_api_author.given_name)
+    if family_name is None and given_name is None:
+        quoted_name = quote(scraper_author.name)
+        family_name = quoted_name
+        given_name = quoted_name
+
     result = model.AuthorModel(
         affiliations=result_affiliations,
-        family_name=quote(doi_api_author.family_name),
-        given_name=quote(doi_api_author.given_name),
+        family_name=family_name,
+        given_name=given_name,
         orcid=doi_api_author.orcid
     )
     return result
@@ -53,31 +63,22 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
     scraper_author_dict = {author.name: author for author in scraper_paper.authors}
     doi_author_dict = {author.name: author for author in doi_api_paper.authors}
 
-    if sorted(scraper_author_dict.keys()) != sorted(doi_author_dict.keys()):
-        # TODO: New method for authors, as mismatches happen. Just merge these dicts.
-        raise RuntimeError(f"Authors' names mismatch.\nFrom SCPE scraper: {sorted(scraper_author_dict.keys())}\nFrom DOI api scraper: {sorted(doi_author_dict.keys())}")
-
-    zipped_authors = [
-        (author, doi_author_dict[author.name])
-        for author in scraper_author_dict.values()
-    ]
-
-    result_authors: List[model.AuthorModel] = [
-        create_author_model(scraper_author, doi_api_author)
-        for (scraper_author, doi_api_author) in zipped_authors
-    ]
+    result_authors: List[model.AuthorModel] = []
+    for author_name, doi_api_author in doi_author_dict.items():
+        scraper_author = scraper_author_dict[author_name] if author_name in scraper_author_dict.keys() else None
+        result_authors.append(create_author_model(scraper_author, doi_api_author))
 
     result = model.PaperModel(
         abstract_text=scraper_paper.abstract_text,
         authors=set(result_authors),
         created=doi_api_paper.date,
         doi=scraper_paper.doi,
-        endingPage=int(doi_api_paper.ending_page),
-        keywords=set(scraper_paper.keywords),
+        endingPage=None if doi_api_paper.ending_page is None else int(doi_api_paper.ending_page),
+        keywords=None if scraper_paper.keywords is None else set(scraper_paper.keywords),
         pdf_url=scraper_paper.pdf_url,
-        startingPage=int(doi_api_paper.starting_page),
-        title=quote(doi_api_paper.title.strip('"')),
+        startingPage=None if doi_api_paper.starting_page is None else int(doi_api_paper.starting_page),
+        title=None if doi_api_paper.title is None else quote(doi_api_paper.title.strip('"')),
         url=scraper_paper.url,
-        volume=int(doi_api_paper.volume)
+        volume=None if doi_api_paper.volume is None else int(doi_api_paper.volume)
     )
     return result

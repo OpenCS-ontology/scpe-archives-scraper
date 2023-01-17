@@ -132,5 +132,5 @@ dmypy.json
 .pyre/
 
 # Executables and operational
-main
+./main
 target/

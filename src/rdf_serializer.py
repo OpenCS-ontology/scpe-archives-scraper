@@ -39,8 +39,6 @@ class RDFSerializer:
         return bn
 
     def accept_paper(self, paper: model.PaperModel):
-        # TODO: Run this code and fix, I probably missed something important
-        #       and messed up the syntax. :|
         paper_id = paper.get_id()
         paper_node = self._BASE[paper_id]
 
@@ -48,13 +46,13 @@ class RDFSerializer:
         # In N3 (s p o) it's (p o), with the paper as the s.
         pairs = [
             (RDF.type, self._BASE["Paper"]),
-            (PRISM.doi, Literal(paper.doi)),
-            (DCTERMS.abstract, Literal(paper.abstract_text)),
-            (DCTERMS.title, Literal(paper.title)),
-            (PRISM.volume, Literal(paper.volume)),
-            (PRISM.startingPage, Literal(paper.startingPage)),
-            (PRISM.endingPage, Literal(paper.endingPage)),
-            (FABIO.hasURL, Literal(paper.url)),
+            None if paper.doi is None else (PRISM.doi, Literal(paper.doi)),
+            None if paper.abstract_text is None else (DCTERMS.abstract, Literal(paper.abstract_text)),
+            None if paper.title is None else (DCTERMS.title, Literal(paper.title)),
+            None if paper.volume is None else (PRISM.volume, Literal(paper.volume)),
+            None if paper.startingPage is None else (PRISM.startingPage, Literal(paper.startingPage)),
+            None if paper.endingPage is None else (PRISM.endingPage, Literal(paper.endingPage)),
+            None if paper.url is None else (FABIO.hasURL, Literal(paper.url)),
         ]
 
         if paper.pdf_url is not None:
@@ -69,6 +67,7 @@ class RDFSerializer:
         for author in paper.authors:
             pairs.append((DCTERMS.creator, self._BASE[author.get_id()]))
 
+        pairs = filter(lambda x: x is not None, pairs)
         for p, o in pairs:
             self._g.add((paper_node, p, o))
 
@@ -78,14 +77,15 @@ class RDFSerializer:
 
         pairs = [
             (RDF.type, self._BASE["Author"]),
-            (FOAF.givenName, Literal(author.given_name)),
-            (FOAF.familyName, Literal(author.family_name)),
-            (DBO.orcidId, Literal(author.orcid)),
+            None if author.given_name is None else (FOAF.givenName, Literal(author.given_name)),
+            None if author.family_name is None else (FOAF.familyName, Literal(author.family_name)),
+            None if author.orcid is None else (DBO.orcidId, Literal(author.orcid)),
         ]
 
         for affiliation in author.affiliations:
             pairs.append((ORG.memberOf, self._BASE[affiliation.get_id()]))
 
+        pairs = filter(lambda x: x is not None, pairs)
         for p, o in pairs:
             self._g.add((author_node, p, o))
 
@@ -98,12 +98,13 @@ class RDFSerializer:
 
         pairs = [
             (RDF.type, self._BASE["Affiliation"]),
-            (SKOS.prefLabel, Literal(affiliation.name)),
+            None if affiliation.name is None else (SKOS.prefLabel, Literal(affiliation.name)),
         ]
 
         for identifier in affiliation.identifiers:
             pairs.append((ORG.identifier, self._format_identifier(identifier)))
 
+        pairs = filter(lambda x: x is not None, pairs)
         for p, o in pairs:
             self._g.add((affiliation_node, p, o))
 

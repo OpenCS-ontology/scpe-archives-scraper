@@ -33,6 +33,14 @@ def strip_quotes(target: str) -> str:
 ORCID_STRING = 'orcid.org'
 
 
+def retrieve_and_strip_quotes(rdf_model: lightrdf.RDFDocument, o, p):
+    triples = list(rdf_model.search_triples(o, p, None))
+    if triples:
+        return strip_quotes(triples[0][2])
+    else:
+        return None
+
+
 def doi_api_decoder(data: bytes) -> PaperDoiResponse:
     parsed = lightrdf.RDFDocument(io.BytesIO(data), parser=lightrdf.turtle.PatternParser)
 
@@ -52,9 +60,9 @@ def doi_api_decoder(data: bytes) -> PaperDoiResponse:
                 orcid = other_uri[where_orcid + len(ORCID_STRING) + 1:len(other_uri) - 1]
 
             # Get the remaining info
-            name = strip_quotes(list(turtle.search_triples(author_uri, FOAF.name, None))[0][2])
-            given_name = strip_quotes(list(turtle.search_triples(author_uri, FOAF.givenName, None))[0][2])
-            family_name = strip_quotes(list(turtle.search_triples(author_uri, FOAF.familyName, None))[0][2])
+            name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.name)
+            given_name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.givenName)
+            family_name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.familyName)
 
             author = AuthorDoiResponse(
                 orcid=orcid,
@@ -69,14 +77,11 @@ def doi_api_decoder(data: bytes) -> PaperDoiResponse:
 
     paper_uri = list(parsed.search_triples(None, PRISM_2_1.doi, None))[0][0]
 
-    ending_page = list(parsed.search_triples(paper_uri, PRISM_2_1.endingPage, None))[0][2]
-    ending_page = strip_quotes(ending_page)
-    starting_page = list(parsed.search_triples(paper_uri, PRISM_2_1.startingPage, None))[0][2]
-    starting_page = strip_quotes(starting_page)
-    volume = list(parsed.search_triples(paper_uri, PRISM_2_1.volume, None))[0][2]
-    volume = strip_quotes(volume)
-    date = list(parsed.search_triples(paper_uri, DCTERMS.date, None))[0][2]
-    title = list(parsed.search_triples(paper_uri, DCTERMS.title, None))[0][2]
+    ending_page = retrieve_and_strip_quotes(parsed, paper_uri, PRISM_2_1.endingPage)
+    starting_page = retrieve_and_strip_quotes(parsed, paper_uri, PRISM_2_1.startingPage)
+    volume = retrieve_and_strip_quotes(parsed, paper_uri, PRISM_2_1.volume)
+    date = retrieve_and_strip_quotes(parsed, paper_uri, DCTERMS.date)
+    title = retrieve_and_strip_quotes(parsed, paper_uri, DCTERMS.title)
 
     return PaperDoiResponse(
         ending_page=ending_page,
