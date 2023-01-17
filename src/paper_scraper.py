@@ -129,7 +129,7 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
         for meta_keyword in html.findAll("meta", {"name": "DC.Subject"}):
             keywords = meta_keyword.attrs['content']
             for keyword in keywords.split(","):
-                result.append(keyword)
+                result.append(keyword.strip(".").strip(" "))
         return result
 
     def find_authors(html: BeautifulSoup) -> List[AuthorScraperResponse]:
@@ -156,7 +156,7 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
                 if authors[last_author] is not None:
                     logging.log(logging.WARNING, f"Multiple institutions for one author: (author: {last_author}, inst1: {authors[last_author]}, inst2: {inst}")
 
-                authors[last_author] = inst.strip("\"").replace(" ", "_")
+                authors[last_author] = inst.strip("\"")
 
         result = []
         for author, institution in authors.items():

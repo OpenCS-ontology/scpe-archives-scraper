@@ -1,7 +1,5 @@
 from typing import List, Optional
 
-from urllib.parse import quote
-
 import model
 import doi_api_model as doi_api
 import paper_scraper as scraper
@@ -25,18 +23,17 @@ def create_author_model(scraper_author: Optional[scraper.AuthorScraperResponse],
     result_affiliations = set()
     if scraper_author is not None and scraper_author.affiliation is not None:
         affiliation = model.AffiliationModel(
-            name=quote(scraper_author.affiliation),
+            name=scraper_author.affiliation,
             # Identifiers are left empty, because the data is not provided by SCPE website.
             identifiers=[]
         )
         result_affiliations.add(affiliation)
 
-    family_name = None if doi_api_author is None else quote(doi_api_author.family_name)
-    given_name = None if doi_api_author is None else quote(doi_api_author.given_name)
+    family_name = None if doi_api_author is None else doi_api_author.family_name
+    given_name = None if doi_api_author is None else doi_api_author.given_name
     if family_name is None and given_name is None:
-        quoted_name = quote(scraper_author.name)
-        family_name = quoted_name
-        given_name = quoted_name
+        family_name = scraper_author.name
+        given_name = scraper_author.name
 
     result = model.AuthorModel(
         affiliations=result_affiliations,
@@ -77,7 +74,7 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
         keywords=None if scraper_paper.keywords is None else set(scraper_paper.keywords),
         pdf_url=scraper_paper.pdf_url,
         startingPage=doi_api_paper.starting_page,
-        title=None if doi_api_paper.title is None else quote(doi_api_paper.title.strip('"')),
+        title=None if doi_api_paper.title is None else doi_api_paper.title.strip('"'),
         url=scraper_paper.url,
         volume=doi_api_paper.volume
     )

@@ -1,15 +1,19 @@
-import logging
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List, Set
+
+from urllib.parse import quote
 
 
 _SCRAPER_DEST_DIR = str(os.environ.get("SCRAPER_DEST_DIR"))
 
 
 def format_strings(target: str) -> str:
-    return target.replace(" ", "_")
+    """
+    Format strings into a serializable form, for example, to be used as objects in a vocabulary.
+    """
+    return quote(target.replace(" ", "_").replace(",", "").strip("."))
 
 
 class IdEquivalent(ABC):
@@ -72,13 +76,12 @@ class AffiliationModel:
         return hash(repr_ids)
 
     def get_id(self):
-        # TODO: Adjust this method to be less reliant on specific ids? somehow?.
         for ident in self.identifiers:
             if ident.type_val == "ROR":
                 return ident.value
         if len(self.identifiers) > 0:
             return self.identifiers[0].value
-        return self.name
+        return format_strings(self.name)
 
 
 @dataclass(eq=False)
@@ -99,8 +102,7 @@ class AuthorModel(IdEquivalent):
         if self.orcid:
             return self.orcid
         else:
-            return format_strings(self.given_name) +\
-                   "_" + format_strings(self.family_name)
+            return format_strings(self.given_name + " " + self.family_name)
 
 
 @dataclass(eq=False)
@@ -143,8 +145,8 @@ class PaperModel(IdEquivalent):
     authors: Set[AuthorModel]
 
     def get_id(self):
-        return "SCPE_" + str(self.volume) +\
-               "_" + format_strings(self.title)
+        return "SCPE_" + ((self.volume + "_") if self.volume is not None else "") + \
+            format_strings(self.title)
 
 
 class DataModel:

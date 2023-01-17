@@ -52,7 +52,8 @@ class RDFSerializer:
             None if paper.volume is None else (PRISM.volume, Literal(paper.volume)),
             None if paper.startingPage is None else (PRISM.startingPage, Literal(paper.startingPage)),
             None if paper.endingPage is None else (PRISM.endingPage, Literal(paper.endingPage)),
-            None if paper.url is None else (FABIO.hasURL, Literal(paper.url)),
+            None if paper.url is None else (FABIO.hasURL, URIRef(paper.url)),
+            None if paper.created is None else (DCTERMS.created, Literal(paper.created, datatype=XSD.date))
         ]
 
         if paper.pdf_url is not None:
