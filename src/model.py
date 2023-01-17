@@ -130,11 +130,11 @@ class PaperModel(IdEquivalent):
     title: str
 
     # prism:volume -> xsd:integer
-    volume: int
+    volume: str
     # prism:startingPage -> xsd:integer
-    startingPage: int
+    startingPage: str
     # prism:endingPage -> xsd:integer
-    endingPage: int
+    endingPage: str
 
     # dcterms:created -> xsd:date
     created: str

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from queue import Queue
 from threading import Thread
-from typing import List, Optional
+from typing import List, Optional, Tuple, Callable
 
 import requests
 from bs4 import BeautifulSoup
@@ -50,17 +50,17 @@ class PaperScraperResponse:
     authors: List[AuthorScraperResponse]
 
 
-def get_paper_queue() -> Queue[PaperScraperResponse]:
+def get_paper_queue() -> Tuple[Queue[PaperScraperResponse], Callable[[], bool]]:
     """
     Get a queue into which papers will be scraped.
     Sometimes dummy papers can appear. Their DOI is an empty string, and they should be ignored.
-    :return: Queue on which the scraped papers will appear periodically.
+    :return: Queue on which the scraped papers will appear periodically, and a function to check if there will be more items.
     """
 
     q = Queue()
     t = Thread(target=scrape_all_doi, args=[q])
     t.start()
-    return q
+    return q, lambda: t.is_alive()
 
 
 def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:

@@ -73,12 +73,12 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
         authors=set(result_authors),
         created=doi_api_paper.date,
         doi=scraper_paper.doi,
-        endingPage=None if doi_api_paper.ending_page is None else int(doi_api_paper.ending_page),
+        endingPage=doi_api_paper.ending_page,
         keywords=None if scraper_paper.keywords is None else set(scraper_paper.keywords),
         pdf_url=scraper_paper.pdf_url,
-        startingPage=None if doi_api_paper.starting_page is None else int(doi_api_paper.starting_page),
+        startingPage=doi_api_paper.starting_page,
         title=None if doi_api_paper.title is None else quote(doi_api_paper.title.strip('"')),
         url=scraper_paper.url,
-        volume=None if doi_api_paper.volume is None else int(doi_api_paper.volume)
+        volume=doi_api_paper.volume
     )
     return result
