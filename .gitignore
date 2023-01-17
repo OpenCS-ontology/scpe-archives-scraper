@@ -134,3 +134,4 @@ dmypy.json
 # Executables and operational
 ./main
 target/
+target_local/
