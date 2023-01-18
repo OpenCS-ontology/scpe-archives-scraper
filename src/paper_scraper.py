@@ -2,11 +2,14 @@ import logging
 from dataclasses import dataclass
 from http import HTTPStatus
 from queue import Queue
+from requests.exceptions import ConnectionError
 from threading import Thread
 from typing import List, Optional, Tuple, Callable
 
-import requests
 from bs4 import BeautifulSoup
+
+import requests_trials as requests
+
 
 URL_ARCHIVES = 'https://www.scpe.org/index.php/scpe/issue/archive'
 BEAUTIFUL_SOUP_FEATURES = "html.parser"
@@ -25,6 +28,9 @@ class AuthorScraperResponse:
     # citation_author_institution
     affiliation: Optional[str]
 
+    # Cannot be acquired from meta
+    fallback_orcid: Optional[str]
+
 
 @dataclass
 class PaperScraperResponse:
@@ -36,18 +42,33 @@ class PaperScraperResponse:
     url: str
 
     # DC.Description
-    abstract_text: str
+    abstract_text: Optional[str]
 
     # DC.Identifier.DOI
-    doi: str
+    doi: Optional[str]
 
     # DC.Subject
     keywords: List[str]
 
-    # Cannot be acquired from meta
+    # citation_pdf_url
     pdf_url: Optional[str]
 
     authors: List[AuthorScraperResponse]
+
+    # DC.Date.created
+    fallback_created: str
+
+    # DC.Source.Volume
+    fallback_volume: Optional[str]
+
+    # citation_firstpage
+    fallback_starting_page: Optional[str]
+
+    # citation_lastpage
+    fallback_ending_page: Optional[str]
+
+    # DC.Title
+    fallback_title: str
 
 
 def get_paper_queue() -> Tuple[Queue[PaperScraperResponse], Callable[[], bool]]:
@@ -70,7 +91,11 @@ def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:
     :return: List of all DOIs in SCPE Archive.
     """
 
-    r_archives = requests.get(URL_ARCHIVES)
+    try:
+        r_archives = requests.get(URL_ARCHIVES)
+    except ConnectionError as e:
+        logging.warning(f"SCPE archive {URL_ARCHIVES} scrape error: {str(e)}")
+        return
 
     if r_archives.status_code != HTTPStatus.OK:
         raise Exception("Archives list read error")
@@ -84,7 +109,7 @@ def scrape_all_doi(q: Queue[PaperScraperResponse]) -> None:
         scrape_issue(q, 'https:' + url_issue)
 
 
-def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
+def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str) -> None:
     """
     Using HTTP requests get DOIs from a single issue in the SCPE archive.
     :param q: Parallel listener into which to return found data.
@@ -92,7 +117,11 @@ def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
     :return: List of all DOIs present in this issue.
     """
 
-    r_issue = requests.get(url_issue)
+    try:
+        r_issue = requests.get(url_issue)
+    except ConnectionError as e:
+        logging.warning(f"SCPE issue {url_issue} scrape error: {str(e)}")
+        return
 
     if r_issue.status_code != HTTPStatus.OK:
         raise Exception(f"Issue {{ {url_issue} }} read error")
@@ -106,7 +135,7 @@ def scrape_issue(q: Queue[PaperScraperResponse], url_issue: str):
         scrape_paper(q, 'https:' + url_paper)
 
 
-def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
+def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str) -> None:
     """
     Using HTTP requests get the DOI of paper present under a specific URL on scpe.org.
     :param q: Parallel listener into which to return found data.
@@ -116,11 +145,14 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
 
     def find_doi(html: BeautifulSoup) -> str:
         meta_doi = html.find("meta", {"name": "DC.Identifier.DOI"})
-        doi = meta_doi.attrs['content']
-        return doi
+        if meta_doi is None:
+            meta_doi = html.find("meta", {"name": "citation_doi"})
+        return meta_doi.attrs['content'] if meta_doi is not None else None
 
-    def find_abstract(html: BeautifulSoup) -> str:
+    def find_abstract(html: BeautifulSoup) -> Optional[str]:
         meta_abstract = html.find("meta", {"name": "DC.Description"})
+        if meta_abstract is None:
+            return None
         abstract = meta_abstract.attrs['content']
         return abstract
 
@@ -154,24 +186,67 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
 
                 assert last_author is not None
                 if authors[last_author] is not None:
-                    logging.log(logging.WARNING, f"Multiple institutions for one author: (author: {last_author}, inst1: {authors[last_author]}, inst2: {inst}")
+                    logging.log(logging.WARNING,
+                                f"Multiple institutions for one author: (author: {last_author}, inst1: {authors[last_author]}, inst2: {inst}")
 
                 authors[last_author] = inst.strip("\"")
 
+        authors_in_body_with_orcid = html.select("div.author div.orcid")
+        name_to_orcid = {}
+        for author in authors_in_body_with_orcid:
+            orcid_a = author.find('a')
+            orcid_url = orcid_a.attrs['href']
+            orcid = orcid_url.split('/')[-1]
+
+            strong_name = author.parent.find('strong')
+            name_to_orcid[strong_name.contents[0]] = orcid
+
         result = []
         for author, institution in authors.items():
-            result.append(AuthorScraperResponse(author, institution))
+            # Try to find a fallback ORCID on the page.
+            fallback_orcid = None
+            if author in name_to_orcid.keys():
+                fallback_orcid = name_to_orcid[author]
+            result.append(AuthorScraperResponse(author, institution, fallback_orcid))
         return result
 
     def find_pdf_url(html: BeautifulSoup) -> Optional[str]:
-        pdf_url_a = html.select_one("div.download a")
-        if pdf_url_a is None:
-            return None
+        pdf_url_meta = html.find("meta", {"name": "citation_pdf_url"})
 
-        pdf_url = pdf_url_a.attrs['href']
+        if pdf_url_meta is None:
+            pdf_url_a = html.select_one("div.download a")
+            if pdf_url_a is None:
+                return None
+            pdf_url = pdf_url_a.attrs['href']
+        else:
+            pdf_url = pdf_url_meta.attrs['content']
         return 'https:' + pdf_url
 
-    r_paper = requests.get(url_paper)
+    def find_created(html: BeautifulSoup) -> str:
+        meta = html.find("meta", {"name": "DC.Date.created"})
+        return meta.attrs['content']
+
+    def find_volume(html: BeautifulSoup) -> Optional[str]:
+        meta = html.find("meta", {"name": "DC.Source.Volume"})
+        return meta.attrs['content'] if meta is not None else None
+
+    def find_starting_page(html: BeautifulSoup) -> Optional[str]:
+        meta = html.find("meta", {"name": "citation_firstpage"})
+        return meta.attrs['content'] if meta is not None else None
+
+    def find_ending_page(html: BeautifulSoup) -> Optional[str]:
+        meta = html.find("meta", {"name": "citation_lastpage"})
+        return meta.attrs['content'] if meta is not None else None
+
+    def find_title(html: BeautifulSoup) -> str:
+        meta = html.find("meta", {"name": "DC.Title"})
+        return meta.attrs['content']
+
+    try:
+        r_paper = requests.get(url_paper)
+    except ConnectionError as e:
+        logging.warning(f"SCPE paper {url_paper} scrape error: {str(e)}")
+        return
 
     if r_paper.status_code != HTTPStatus.OK:
         raise Exception(f"Paper {{ {url_paper} }} read error")
@@ -183,7 +258,12 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str):
         doi=find_doi(soup_paper),
         keywords=find_keywords(soup_paper),
         pdf_url=find_pdf_url(soup_paper),
-        authors=find_authors(soup_paper)
+        authors=find_authors(soup_paper),
+        fallback_title=find_title(soup_paper),
+        fallback_created=find_created(soup_paper),
+        fallback_volume=find_volume(soup_paper),
+        fallback_ending_page=find_ending_page(soup_paper),
+        fallback_starting_page=find_starting_page(soup_paper)
     )
 
     q.put(scraped)

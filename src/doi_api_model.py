@@ -1,4 +1,5 @@
 import io
+import logging
 from dataclasses import dataclass
 from typing import List, Optional
 
@@ -47,30 +48,39 @@ def doi_api_decoder(data: bytes) -> PaperDoiResponse:
     def find_authors(turtle: lightrdf.RDFDocument) -> List[AuthorDoiResponse]:
         result = []
 
-        author_uris = map(lambda l: l[0], turtle.search_triples(None, RDF.type, FOAF.Person))
-        for author_uri in author_uris:
-            # Try to find ORCID
-            other_author_uri = list(turtle.search_triples(author_uri, OWL.sameAs, None))
-            assert len(other_author_uri) <= 1
-            orcid = None
-            if len(other_author_uri) != 0:
-                other_uri = other_author_uri[0][2]
-                assert ORCID_STRING in other_uri
-                where_orcid = other_uri.find(ORCID_STRING)
-                orcid = other_uri[where_orcid + len(ORCID_STRING) + 1:len(other_uri) - 1]
+        author_triples = turtle.search_triples(None, RDF.type, FOAF.Person)
+        if author_triples is None:
+            return result
 
-            # Get the remaining info
-            name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.name)
-            given_name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.givenName)
-            family_name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.familyName)
+        try:
+            for author_triple in author_triples:
+                author_uri = author_triple[0]
 
-            author = AuthorDoiResponse(
-                orcid=orcid,
-                given_name=given_name,
-                family_name=family_name,
-                name=name
-            )
-            result.append(author)
+                # Try to find ORCID
+                other_author_uri = list(turtle.search_triples(author_uri, OWL.sameAs, None))
+                assert len(other_author_uri) <= 1
+                orcid = None
+                if len(other_author_uri) != 0:
+                    other_uri = other_author_uri[0][2]
+                    assert ORCID_STRING in other_uri
+                    where_orcid = other_uri.find(ORCID_STRING)
+                    orcid = other_uri[where_orcid + len(ORCID_STRING) + 1:len(other_uri) - 1]
+
+                # Get the remaining info
+                name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.name)
+                given_name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.givenName)
+                family_name = retrieve_and_strip_quotes(turtle, author_uri, FOAF.familyName)
+
+                author = AuthorDoiResponse(
+                    orcid=orcid,
+                    given_name=given_name,
+                    family_name=family_name,
+                    name=name
+                )
+                result.append(author)
+        except Exception:
+            # lightrdf throws errors if some turtles returned from DOI api aren't really ok
+            logging.warning(f"Lightrdf error in searching authors.\nTurtle file got from DOI api:\n{io.BytesIO(data)}\n")
         return result
 
     authors = find_authors(parsed)

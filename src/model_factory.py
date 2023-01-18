@@ -39,13 +39,48 @@ def create_author_model(scraper_author: Optional[scraper.AuthorScraperResponse],
         affiliations=result_affiliations,
         family_name=family_name,
         given_name=given_name,
+
         orcid=doi_api_author.orcid
+        if doi_api_author is not None and doi_api_author.orcid is not None
+        else (
+            scraper_author.fallback_orcid
+            if scraper_author is not None
+            else None
+        )
+    )
+    return result
+
+
+def create_paper_basic_model(scraper_paper: scraper.PaperScraperResponse) -> model.PaperModel:
+    """
+    Factory method for model.PaperModel,  based solely on information from paper_scraper.PaperScraperResponse.
+
+    :param scraper_paper: Paper model got from scraping the SCPE Archives.
+    :return: Basic paper model object.
+    """
+
+    result_authors: List[model.AuthorModel] = []
+    for scraper_author in scraper_paper.authors:
+        result_authors.append(create_author_model(scraper_author, None))
+
+    result = model.PaperModel(
+        abstract_text=scraper_paper.abstract_text,
+        authors=set(result_authors),
+        created=scraper_paper.fallback_created,
+        doi=scraper_paper.doi,
+        endingPage=scraper_paper.fallback_ending_page,
+        keywords=None if scraper_paper.keywords is None else set(scraper_paper.keywords),
+        pdf_url=scraper_paper.pdf_url,
+        startingPage=scraper_paper.fallback_starting_page,
+        title=scraper_paper.fallback_title,
+        url=scraper_paper.url,
+        volume=scraper_paper.fallback_volume
     )
     return result
 
 
 def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
-                       doi_api_paper: doi_api.PaperDoiResponse
+                       doi_api_paper: Optional[doi_api.PaperDoiResponse]
                        ) -> model.PaperModel:
     """
     Factory method for model.PaperModel, combining information from two
@@ -55,6 +90,9 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
     :param doi_api_paper: Paper model got from scraping the DOI api.
     :return: The combined paper model object.
     """
+
+    if doi_api_paper is None:
+        return create_paper_basic_model(scraper_paper)
 
     # Sorting OrderedDicts by author's name.
     scraper_author_dict = {author.name: author for author in scraper_paper.authors}
@@ -74,7 +112,8 @@ def create_paper_model(scraper_paper: scraper.PaperScraperResponse,
         keywords=None if scraper_paper.keywords is None else set(scraper_paper.keywords),
         pdf_url=scraper_paper.pdf_url,
         startingPage=doi_api_paper.starting_page,
-        title=None if doi_api_paper.title is None else doi_api_paper.title.strip('"'),
+        title=scraper_paper.fallback_title.strip('"') if doi_api_paper.title is None else doi_api_paper.title.strip(
+            '"'),
         url=scraper_paper.url,
         volume=doi_api_paper.volume
     )

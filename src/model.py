@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Set
+from typing import List, Set, Optional
 
 from urllib.parse import quote
 
@@ -13,7 +13,7 @@ def format_strings(target: str) -> str:
     """
     Format strings into a serializable form, for example, to be used as objects in a vocabulary.
     """
-    return quote(target.replace(" ", "_").replace(",", "").strip("."))
+    return quote(target.replace(" ", "_").replace(",", "").strip(".").replace('/', '-'))
 
 
 class IdEquivalent(ABC):
@@ -111,7 +111,7 @@ class PaperModel(IdEquivalent):
     doi: str
 
     # dcterms:abstract -> xsd:string
-    abstract_text: str
+    abstract_text: Optional[str]
 
     # prism:keyword -> xsd:string
     keywords: Set[str]
