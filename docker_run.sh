@@ -2,5 +2,6 @@
 
 mkdir target
 docker run -d \
-    -v target:/target \
+    -v $(pwd)/target:/target \
     scpe_scraper
+

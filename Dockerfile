@@ -10,8 +10,7 @@ ENV VIRTUAL_ENV=/opt/venv
 RUN python3 -m venv $VIRTUAL_ENV
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-RUN mkdir /home/app
-WORKDIR /home/app
+WORKDIR /
 COPY src/ ./
 
 RUN pip3 install wheel && \
