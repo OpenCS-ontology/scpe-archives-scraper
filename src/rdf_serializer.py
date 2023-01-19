@@ -78,6 +78,7 @@ class RDFSerializer:
 
         pairs = [
             (RDF.type, self._BASE["Author"]),
+            None if author.name is None else (FOAF.name, Literal(author.name)),
             None if author.given_name is None else (FOAF.givenName, Literal(author.given_name)),
             None if author.family_name is None else (FOAF.familyName, Literal(author.family_name)),
             None if author.orcid is None else (DBO.orcidId, Literal(author.orcid)),

@@ -1,3 +1,4 @@
+import logging
 from typing import List, Optional
 
 import model
@@ -29,16 +30,17 @@ def create_author_model(scraper_author: Optional[scraper.AuthorScraperResponse],
         )
         result_affiliations.add(affiliation)
 
-    family_name = None if doi_api_author is None else doi_api_author.family_name
-    given_name = None if doi_api_author is None else doi_api_author.given_name
-    if family_name is None and given_name is None:
-        family_name = scraper_author.name
-        given_name = scraper_author.name
-
     result = model.AuthorModel(
         affiliations=result_affiliations,
-        family_name=family_name,
-        given_name=given_name,
+        name=doi_api_author.name
+        if doi_api_author is not None and doi_api_author.name is not None
+        else (
+            scraper_author.name
+            if scraper_author is not None
+            else None
+        ),
+        family_name=None if doi_api_author is None else doi_api_author.family_name,
+        given_name=None if doi_api_author is None else doi_api_author.given_name,
 
         orcid=doi_api_author.orcid
         if doi_api_author is not None and doi_api_author.orcid is not None
@@ -48,6 +50,8 @@ def create_author_model(scraper_author: Optional[scraper.AuthorScraperResponse],
             else None
         )
     )
+    if result.name is None:
+        logging.warning(f"!!!Author without a name!!! {result.get_id()}")
     return result
 
 

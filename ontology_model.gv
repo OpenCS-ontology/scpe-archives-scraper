@@ -98,6 +98,7 @@ digraph SCPE_Onto {
         "dcterms:Agent" [shape=box, fillcolor=white];
         ":Author" -> "dcterms:Agent" [label="rdfs:subClassOf"];
 
+        ":Author" -> "xsd:string9" [label="foaf:name"];
         ":Author" -> "xsd:string4" [label="foaf:givenName"];
         ":Author" -> "xsd:string5" [label="foaf:familyName"];
         ":Author" -> "xsd:string6" [label="dbo:orcidId"];

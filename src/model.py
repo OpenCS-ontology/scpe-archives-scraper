@@ -87,22 +87,27 @@ class AffiliationModel:
 @dataclass(eq=False)
 class AuthorModel(IdEquivalent):
     # foaf:givenName -> xsd:string
-    given_name: str
+    given_name: Optional[str]
 
     # foaf:familyName -> xsd:string
-    family_name: str
+    family_name: Optional[str]
+
+    # foaf:name -> xsd:string
+    name: str
 
     # dbo:orcidId -> xsd:string
-    orcid: str
+    orcid: Optional[str]
 
     # org:memberOf -> :Affiliation
     affiliations: Set[AffiliationModel]
 
     def get_id(self) -> str:
-        if self.orcid:
+        if self.orcid is not None:
             return self.orcid
-        else:
+        elif self.given_name is not None and self.family_name is not None:
             return format_strings(self.given_name + " " + self.family_name)
+        else:
+            return format_strings(self.name)
 
 
 @dataclass(eq=False)
