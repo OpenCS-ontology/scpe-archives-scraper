@@ -37,5 +37,3 @@ The scraper can be run with docker (`./docker_build.sh`, `./docker_run.sh`) or l
 
 ### `:Affiliation`
 * `skos:prefLabel` - Name of the organization.
-
->>>>>>> 67dd9e1 (Serializing foaf:name of the author)
