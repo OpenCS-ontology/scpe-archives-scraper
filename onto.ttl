@@ -1,0 +1,17 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+:Paper a owl:Class ;
+    owl:equivalentClass fabio:ResearchPaper .
+
+:Author a owl:Class ;
+    rdfs:subClassOf dcterms:Agent ;
+    rdfs:subClassOf foaf:Person .
+
+:Affiliation a owl:Class ;
+    rdfs:subClassOf org:Organization .
