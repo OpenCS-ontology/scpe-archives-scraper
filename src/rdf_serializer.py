@@ -1,3 +1,5 @@
+import os
+
 from rdflib import XSD, DCTERMS, FOAF, RDF, ORG, SKOS, RDFS, OWL
 from rdflib.graph import Graph
 from rdflib.namespace import Namespace
@@ -112,3 +114,5 @@ class RDFSerializer:
 
     def serialize(self, destination: str):
         self._g.serialize(destination=destination, format="turtle")
+        # Read permissions for others (useful when running with docker)
+        os.chmod(destination, 0o644)
