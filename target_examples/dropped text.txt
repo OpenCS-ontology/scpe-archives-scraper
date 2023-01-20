@@ -1,1 +1,0 @@
-/home/klimek/sem7/sdp/sdp9/target/SCPE_21_Performance_Analysis_of_Video_On-demand_and_Live_Video_Streaming_using_Cloud_based_Services.ttl

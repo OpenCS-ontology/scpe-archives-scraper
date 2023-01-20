@@ -1,0 +1,73 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_22_Introduction_to_the_Special_Issue_on_Artificial_Intelligence_for_Smart_Cities_and_Industries a :Paper ;
+    prism:doi "10.12694/scpe.v22i2.1939" ;
+    prism:endingPage "91" ;
+    prism:keyword "Artificial Intelligence" ;
+    prism:startingPage "89" ;
+    prism:volume "22" ;
+    dcterms:abstract """Smart Cities and Artificial Intelligence offers an intensive evaluation of how the smart city establishments are made at different scales through automated thinking headways, for instance, geospatial information, data examination, data portrayal, clever related things, and quick natural frameworks handiness. Progressing propels in electronic thinking attract us closer to making a persistent reproduced model of human-made and trademark structures, from urban regions to transportation establishments to utility frameworks. This continuous living model empowers us to all the bound to manage and improve these working structures, making them dynamically watchful. Keen Cities and Artificial Intelligence gives a multidisciplinary, joined procedure, using speculative and applied bits of information, for the evaluation of savvy city situations. This special issue shows how the mechanized and physical universes are associated inside this organic framework, and how nonstop data arrangement is changing the possibility of our urban as well as industrial condition. It gives a fresh sweeping perspective on the natural framework designing, advances, and parts that include the masterminding and execution of sharp city and industry establishments. This special issue also shows how the computerized and physical universes are connected inside this biological system, and how continuous information assortment is changing the idea of our urban and industry condition. It gives a crisp all-encompassing viewpoint on the biological system engineering, advances, and parts that involve the arranging and execution of keen city and industry foundations. After following double blind peer review for all the submitted manuscripts across the globe, and after the rigorous review process, revision and based on final recommendations of the reviewers and editorial team, finally 17 manuscripts have been accepted for publication.\r
+&nbsp;""" ;
+    dcterms:created "2021-11-09"^^xsd:date ;
+    dcterms:creator :0000-0002-7676-9014,
+        :Adam_Slowik,
+        :Ashutosh_Sharma,
+        :Gaurav_Dhiman,
+        :Wei-Chiang_Hong ;
+    dcterms:title "Introduction to the Special Issue on Artificial Intelligence for Smart Cities and Industries" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1939> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1939/700> ] .
+
+:0000-0002-7676-9014 a :Author ;
+    dbo:orcidId "0000-0002-7676-9014" ;
+    foaf:familyName "Singh" ;
+    foaf:givenName "Pradeep Kumar" ;
+    foaf:name "Pradeep Kumar Singh" .
+
+:Adam_Slowik a :Author ;
+    org:memberOf :Koszalin_University_of_Technology_Faculty_of_Electronics_and_Computer_Science_Department_of_Computer_Engineering_Poland ;
+    foaf:familyName "Slowik" ;
+    foaf:givenName "Adam" ;
+    foaf:name "Adam Slowik" .
+
+:Ashutosh_Sharma a :Author ;
+    org:memberOf :Institute_of_Computer_Technology_and_Information_Security_Southern_Federal_University_Russia ;
+    foaf:familyName "Sharma" ;
+    foaf:givenName "Ashutosh" ;
+    foaf:name "Ashutosh Sharma" .
+
+:Department_of_Computer_Science_Government_Bikram_College_of_Commerce_India a :Affiliation ;
+    skos:prefLabel "Department of Computer Science, Government Bikram College of Commerce, India" .
+
+:Gaurav_Dhiman a :Author ;
+    org:memberOf :Department_of_Computer_Science_Government_Bikram_College_of_Commerce_India ;
+    foaf:familyName "Dhiman" ;
+    foaf:givenName "Gaurav" ;
+    foaf:name "Gaurav Dhiman" .
+
+:Institute_of_Computer_Technology_and_Information_Security_Southern_Federal_University_Russia a :Affiliation ;
+    skos:prefLabel "Institute of Computer Technology and Information Security, Southern Federal University, Russia" .
+
+:Koszalin_University_of_Technology_Faculty_of_Electronics_and_Computer_Science_Department_of_Computer_Engineering_Poland a :Affiliation ;
+    skos:prefLabel "Koszalin University of Technology, Faculty of Electronics and Computer Science Department of Computer Engineering, Poland" .
+
+:School_of_Education_Intelligent_Technology_Jiangsu_Normal_University_China a :Affiliation ;
+    skos:prefLabel "School of Education Intelligent Technology, Jiangsu Normal University, China" .
+
+:Wei-Chiang_Hong a :Author ;
+    org:memberOf :School_of_Education_Intelligent_Technology_Jiangsu_Normal_University_China ;
+    foaf:familyName "Hong" ;
+    foaf:givenName "Wei-Chiang" ;
+    foaf:name "Wei-Chiang Hong" .
+

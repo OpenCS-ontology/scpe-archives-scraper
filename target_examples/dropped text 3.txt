@@ -1,1 +1,0 @@
-/home/klimek/sem7/sdp/sdp9/target/SCPE_22_Design_of_Intelligent_Building_Scheduling_System_for_Internet_of_Things_and_Cloud_Computing.ttl

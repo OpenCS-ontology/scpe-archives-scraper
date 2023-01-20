@@ -1,0 +1,65 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dbo: <http://dbpedia.org/ontology/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_22_Enhanced_Secure_ATM_authentication_using_NFC_Technology_and_Iris_Verification a :Paper ;
+    prism:doi "10.12694/scpe.v22i2.1920" ;
+    prism:endingPage "282" ;
+    prism:keyword "ATM",
+        "Authentication",
+        "Industry",
+        "Iris",
+        "NFC",
+        "Security",
+        "and reliability of industry applications",
+        "privacy" ;
+    prism:startingPage "273" ;
+    prism:volume "22" ;
+    dcterms:abstract "In today's world technology has advanced to such an extent that it is interchangeable with connection and convenience. ATM was one of the major breakthroughs, and over the time it has provided better convenience in fulfilling one’s banking needs. Although, there are certain predicaments that such ATM transactions are susceptible too. The conventional PIN based authentication that is presently accustomed in all ATM apparatus is liable to shoulder surfing, hassle in remembering the multiple PIN and the rest. The physical card brings along setbacks in particular, wearing out of the magnetic strip attributable to frequent usage, losing or getting it stolen. Aside from these there are other unlawful activities that are carried upon. The objective of this paper is to present a solution to the above stated problems. In contrast to standard architecture, the proposed solution incorporates NFC enabled smartphones as a substitute for physical card and iris based authentication for PIN." ;
+    dcterms:created "2021-11-09"^^xsd:date ;
+    dcterms:creator :0000-0001-9637-6157,
+        :0000-0003-0486-8045,
+        :Mahima_Biswas,
+        :Neer_Choksi ;
+    dcterms:title "Enhanced Secure ATM authentication using NFC Technology and Iris Verification" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1920> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1920/699> ] .
+
+:0000-0001-9637-6157 a :Author ;
+    dbo:orcidId "0000-0001-9637-6157" ;
+    org:memberOf :Department_of_Computer_Science_and_Engineering_Nirma_University__Ahmedabad_India ;
+    foaf:familyName "Oza" ;
+    foaf:givenName "Parita" ;
+    foaf:name "Parita Oza" .
+
+:0000-0003-0486-8045 a :Author ;
+    dbo:orcidId "0000-0003-0486-8045" ;
+    org:memberOf :Department_of_Computer_Science_and_Engineering_Nirma_University__Ahmedabad_India ;
+    foaf:familyName "Agrawal" ;
+    foaf:givenName "Smita S" ;
+    foaf:name "Smita S Agrawal" .
+
+:Mahima_Biswas a :Author ;
+    org:memberOf :Department_of_Computer_Science_and_Engineering_Nirma_University__Ahmedabad_India ;
+    foaf:familyName "Biswas" ;
+    foaf:givenName "Mahima" ;
+    foaf:name "Mahima Biswas" .
+
+:Neer_Choksi a :Author ;
+    org:memberOf :Department_of_Computer_Science_and_Engineering_Nirma_University__Ahmedabad_India ;
+    foaf:familyName "Choksi" ;
+    foaf:givenName "Neer" ;
+    foaf:name "Neer Choksi" .
+
+:Department_of_Computer_Science_and_Engineering_Nirma_University__Ahmedabad_India a :Affiliation ;
+    skos:prefLabel "Department of Computer Science and Engineering, Nirma University,  Ahmedabad, India" .
+

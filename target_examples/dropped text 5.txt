@@ -1,1 +1,0 @@
-/home/klimek/sem7/sdp/sdp9/target/SCPE_22_Study_and_Research_on_IoT_and_Big_Data_Analysis_for_Smart_City_Development.ttl

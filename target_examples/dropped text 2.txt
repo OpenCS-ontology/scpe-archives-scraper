@@ -1,1 +1,0 @@
-/home/klimek/sem7/sdp/sdp9/target/SCPE_22_A_Review_of_Design_Approaches_for_Enhancing_the__Performance_of_NoCs_at_Communication_Centric_Level.ttl

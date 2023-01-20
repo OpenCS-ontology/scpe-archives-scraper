@@ -1,0 +1,72 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_22_Design_and_Research_on_the_Intelligent_System_of_Urban_Rail_Transit_Project_based_on_BIM%2BGIS a :Paper ;
+    prism:doi "10.12694/scpe.v22i2.1875" ;
+    prism:keyword "Urban rail transit; construction monitoring; GIS; BIM; integration; linear projects;multiple regions" ;
+    prism:volume "22" ;
+    dcterms:abstract "Building Information Modeling (BIM) technology has been widely used in the construction industry, especially in the field of civil construction. BIM standards, basic software and management platforms are relatively mature. The urban rail transit projects are linear projects, they not only span long lines, multiple regions, involve multiple disciplines, and are difficult to coordinate, but also have complex surrounding environments and high safety requirements. Therefore, their needs for integrated construction and operation applications are more concentrated. In order to solve the problems of data isolation, single display form, abnormal situation notification and delayed processing in urban rail transit construction monitoring, combined with GIS+BIM technology, a complete set of construction monitoring information management process and data organization plan is proposed, and the development is oriented. The construction monitoring system of project construction management focuses on solving the problems of the integration, display, early warning and secondary early warning of construction monitoring data. The system realizes the functions of input, storage, processing, three-dimensional display and early warning of measuring point information and daily measurement information. It is integrated with the GIS+BIM management and control platform, and the project is carried out in the construction project of Qingdao Rail Transit Line 8. Application, interact with functions such as model browsing, schedule control, engineering quantity management, video monitoring, etc., to improve the management efficiency and safety quality level of on-site construction.The mainstream GIS and BIM data based research on construction monitoring data standards promote the in-depth integration of construction monitoring data and improve the data entry and association efficiency." ;
+    dcterms:created "2021-10-24"^^xsd:date ;
+    dcterms:creator :Anton_Pljonkin,
+        :Mohammad_Asif_Ikbal,
+        :Mohammad_Shabaz,
+        :Mohd_Asif_Shah,
+        :Yan_Liu ;
+    dcterms:title "Design and Research on the Intelligent System of Urban Rail Transit Project based on BIM+GIS" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1875> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1875/685> ] .
+
+:Abra_Minch_University_Ethiopia a :Affiliation ;
+    skos:prefLabel "Abra Minch University, Ethiopia" .
+
+:Anton_Pljonkin a :Author ;
+    org:memberOf :Southern_Federal_University_Russia ;
+    foaf:familyName "Pljonkin" ;
+    foaf:givenName "Anton" ;
+    foaf:name "Anton Pljonkin" .
+
+:Bakhtar_University_Kabul_Afghanistan a :Affiliation ;
+    skos:prefLabel "Bakhtar University, Kabul, Afghanistan" .
+
+:KDGX_International_Education_and_Humanities_College_i%E2%80%99an_Kedagaoxin__University_Shaanxi_China a :Affiliation ;
+    skos:prefLabel "KDGX International Education and Humanities College, i’an Kedagaoxin  University, Shaanxi, China" .
+
+:Mohammad_Asif_Ikbal a :Author ;
+    org:memberOf :School_of_Electrical_and_Electronics_Engineering_Lovely_Professional_University_Punjab_India ;
+    foaf:familyName "Ikbal" ;
+    foaf:givenName "Mohammad Asif" ;
+    foaf:name "Mohammad Asif Ikbal" .
+
+:Mohammad_Shabaz a :Author ;
+    org:memberOf :Abra_Minch_University_Ethiopia ;
+    foaf:familyName "Shabaz" ;
+    foaf:givenName "Mohammad" ;
+    foaf:name "Mohammad Shabaz" .
+
+:Mohd_Asif_Shah a :Author ;
+    org:memberOf :Bakhtar_University_Kabul_Afghanistan ;
+    foaf:familyName "Shah" ;
+    foaf:givenName "Mohd Asif" ;
+    foaf:name "Mohd Asif Shah" .
+
+:School_of_Electrical_and_Electronics_Engineering_Lovely_Professional_University_Punjab_India a :Affiliation ;
+    skos:prefLabel "School of Electrical and Electronics Engineering, Lovely Professional University, Punjab, India" .
+
+:Southern_Federal_University_Russia a :Affiliation ;
+    skos:prefLabel "Southern Federal University, Russia" .
+
+:Yan_Liu a :Author ;
+    org:memberOf :KDGX_International_Education_and_Humanities_College_i%E2%80%99an_Kedagaoxin__University_Shaanxi_China ;
+    foaf:familyName "Liu" ;
+    foaf:givenName "Yan" ;
+    foaf:name "Yan Liu" .
+
