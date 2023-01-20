@@ -1,0 +1,33 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_13_The_effect_of_temporary_links_in_randomly_generated_networks_of_constraints a :Paper ;
+    prism:endingPage "72" ;
+    prism:startingPage "59" ;
+    prism:volume "13" ;
+    dcterms:abstract """Additional communication links between unconnected agents are used in asynchronous searching,\r
+in order to detect obsolete information. A first way to remove obsolete information is to add new communication links, which allow a nogood owner to determine whether this nogood is obsolete or not. The second solution consists in temporarily keeping the links. A new link is maintained until a fixed number of messages have been exchanged through it. This article investigates different values for the number of messages, values that are either statically or dynamically, during the run time, determined. In the case of processing all the messages, we adapt a dynamical solution for determining the number of necessary messages for maintaining a connection. The experiments show a better efficiency in comparison with the standard Asynchronous Backtracking. In this paper we examine the effect of temporary links for the random binary constraints problem. Experiments with  asynchronous search techniques are conducted on randomly generated networks of constraints. Experimental results show that the dynamical solution for the temporary links allows obtaining better results for the majority of classes of problems investigated.""" ;
+    dcterms:created "2012-04-27"^^xsd:date ;
+    dcterms:creator :Horia_Emil_Popa,
+        :Ionel_Muscalagiu,
+        :Viorel_Negru ;
+    dcterms:title "The effect of temporary links in randomly generated networks of constraints" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/767> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/767/347> ] .
+
+:Horia_Emil_Popa a :Author ;
+    foaf:name "Horia Emil Popa" .
+
+:Ionel_Muscalagiu a :Author ;
+    foaf:name "Ionel Muscalagiu" .
+
+:Viorel_Negru a :Author ;
+    foaf:name "Viorel Negru" .
+

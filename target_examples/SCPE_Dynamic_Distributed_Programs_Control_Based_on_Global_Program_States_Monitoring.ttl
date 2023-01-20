@@ -1,0 +1,27 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_Dynamic_Distributed_Programs_Control_Based_on_Global_Program_States_Monitoring a :Paper ;
+    prism:endingPage "186" ;
+    prism:startingPage "173" ;
+    dcterms:abstract "The paper concerns designing distributed program execution control based on global application states monitoring in the presence of a dynamic number of processes and threads. Global program execution control is based on application states monitoring at the level of processes/threads in clusters of multi--core processors. A special control infrastructure is proposed based on synchronizers, which collect state information from processes and threads, detect strongly consistent application global states, evaluate control predicates and send respective control signals. An algorithm for detection of strongly consistent global states for a variable number of processes/threads is presented." ;
+    dcterms:created "2012-07-20"^^xsd:date ;
+    dcterms:creator :Janusz_Borkowski,
+        :Marek_Tudruj ;
+    dcterms:title "Dynamic Distributed Programs Control Based on Global Program States Monitoring" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/778> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/778/355> ] .
+
+:Janusz_Borkowski a :Author ;
+    foaf:name "Janusz Borkowski" .
+
+:Marek_Tudruj a :Author ;
+    foaf:name "Marek Tudruj" .
+

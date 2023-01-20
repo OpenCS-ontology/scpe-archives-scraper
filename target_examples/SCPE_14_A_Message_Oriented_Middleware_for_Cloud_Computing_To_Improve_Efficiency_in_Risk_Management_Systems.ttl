@@ -1,0 +1,46 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_14_A_Message_Oriented_Middleware_for_Cloud_Computing_To_Improve_Efficiency_in_Risk_Management_Systems a :Paper ;
+    prism:doi "10.12694/scpe.v14i4.928" ;
+    prism:volume "14" ;
+    dcterms:abstract """Transportation of Dangerous Goods represents a sensitive problem due its congenital high potential risk of causing disaster if an accident occurs. Transportation of Dangerous Goods Risk Management systems reduce the possibility of both accidental disasters and terrorist attacks detecting unusual events and blocking possible threats. \r
+\r
+Cloud computing can facilitate the development of such kinds of systems thanks to new emerging paradigms and technologies. In this paper, we discuss the design of a new Message-Oriented Cloud Middleware for Cloud, that can be used to develop a Cloud-based Transportation of Dangerous Goods Risk Management system. More specifically, we investigate issues on Transportation of Dangerous Goods, in order to focus the attention on the requirements of the Risk Management system. Then, we describe how to use the Message-Oriented Cloud Middleware for Cloud architecture and the necessary utilities in particular here for supporting Transportation of Dangerous Goods.\r
+""" ;
+    dcterms:created "2014-01-20"^^xsd:date ;
+    dcterms:creator :Antonio_Celesti,
+        :Antonio_Puliafito,
+        :Maria_Fazio,
+        :Massimo_Villari ;
+    dcterms:title "A Message Oriented Middleware for Cloud Computing To Improve Efficiency in Risk Management Systems" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/928> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/928/390> ] .
+
+:Antonio_Celesti a :Author ;
+    foaf:familyName "Celesti" ;
+    foaf:givenName "Antonio" ;
+    foaf:name "Antonio Celesti" .
+
+:Antonio_Puliafito a :Author ;
+    foaf:familyName "Puliafito" ;
+    foaf:givenName "Antonio" ;
+    foaf:name "Antonio Puliafito" .
+
+:Maria_Fazio a :Author ;
+    foaf:familyName "Fazio" ;
+    foaf:givenName "Maria" ;
+    foaf:name "Maria Fazio" .
+
+:Massimo_Villari a :Author ;
+    foaf:familyName "Villari" ;
+    foaf:givenName "Massimo" ;
+    foaf:name "Massimo Villari" .
+

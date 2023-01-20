@@ -1,0 +1,56 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_22_An_IOT_and_Blockchain_Approach_for_the_Smart_Water_Management_System_in_Agriculture a :Paper ;
+    prism:doi "10.12694/scpe.v22i2.1869" ;
+    prism:keyword "2D modelling",
+        "Block-chain technology",
+        "Fault transaction",
+        "Internet of Things",
+        "water management system" ;
+    prism:volume "22" ;
+    dcterms:abstract "In all the smart applications, evolution of the Internet of Things (IOT) is utilized as a complete matured technology and in the future internet generations, established itself. Blockchain is also the blooming technique like Internet of things in which the distributed ledger which enhances the security contained in the each node of the block-chain. In the block-chain network, any fault transaction is not done by the illegal users. The block-chain is combined with the Internet of Things for the improvement of real time application performance. IOT based smart water management system is designed in this paper for the agriculture which ensures the effectiveness of the agriculture water management. The remote monitoring with the IOT is used for this purpose. By linking with 2D modelling, the control and management of the agriculture water were performed. Finally, a system is implemented for the agriculture water management through the real time data collection. The obtained result shows the data that updates the water monitoring interface with the varying number of hours. The IoT technology and remote monitoring technology is utilized to the existing water management infrastructure. For water resources management and water supply, this is the very efficient technology." ;
+    dcterms:created "2021-10-24"^^xsd:date ;
+    dcterms:creator :Jian_Xu,
+        :Kayhan_Zrar_Ghafoor,
+        :Yunyan_Chang ;
+    dcterms:title "An IOT and Blockchain Approach for the Smart Water Management System in Agriculture" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1869> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1869/684> ] .
+
+:Department_of_Computer_Science_Knowledge_University_Erbil_Iraq a :Affiliation ;
+    skos:prefLabel "Department of Computer Science, Knowledge University, Erbil, Iraq" .
+
+:Jian_Xu a :Author ;
+    org:memberOf :School_of_Computer_and_Software_Weifang_University_of_Science_and_Technology_Weifang_Shandong_China ;
+    foaf:familyName "Xu" ;
+    foaf:givenName "Jian" ;
+    foaf:name "Jian Xu" .
+
+:Kayhan_Zrar_Ghafoor a :Author ;
+    org:memberOf :Department_of_Computer_Science_Knowledge_University_Erbil_Iraq ;
+    foaf:familyName "Ghafoor" ;
+    foaf:givenName "Kayhan Zrar" ;
+    foaf:name "Kayhan Zrar Ghafoor" .
+
+:School_of_Computer_and_Software_Weifang_University_of_Science_and_Technology_WQeifang_Shandong_China a :Affiliation ;
+    skos:prefLabel "School of Computer and Software, Weifang University of Science and Technology, WQeifang, Shandong, China" .
+
+:School_of_Computer_and_Software_Weifang_University_of_Science_and_Technology_Weifang_Shandong_China a :Affiliation ;
+    skos:prefLabel "School of Computer and Software, Weifang University of Science and Technology, Weifang, Shandong, China" .
+
+:Yunyan_Chang a :Author ;
+    org:memberOf :School_of_Computer_and_Software_Weifang_University_of_Science_and_Technology_WQeifang_Shandong_China ;
+    foaf:familyName "Chang" ;
+    foaf:givenName "Yunyan" ;
+    foaf:name "Yunyan Chang" .
+

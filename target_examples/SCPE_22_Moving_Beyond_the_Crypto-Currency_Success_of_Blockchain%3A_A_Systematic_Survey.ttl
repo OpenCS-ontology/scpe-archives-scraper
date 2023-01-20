@@ -1,0 +1,49 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_22_Moving_Beyond_the_Crypto-Currency_Success_of_Blockchain%3A_A_Systematic_Survey a :Paper ;
+    prism:doi "10.12694/scpe.v22i3.1853" ;
+    prism:endingPage "346" ;
+    prism:keyword "Bitcoin",
+        "Blockchain",
+        "Decentralization",
+        "intelligent transportation systems",
+        "security of Internet of Things (IoT) and government services",
+        "voting systems" ;
+    prism:startingPage "321" ;
+    prism:volume "22" ;
+    dcterms:abstract "Blockchain (BC) is a technology whose value today is estimated by the success of Bitcoin. However, the spectrum of Blockchain applications goes beyond the financial sector. It has displayed enormous potential for revamping the customary industry with its key merits like decentralization, persistency, anonymity, and auditability. In this paper we conduct a comprehensive survey on the blockchain technology, explaining its structure and functioning. This work has analyzed the potential of BC in seven crucial sectors vis. voting systems, supply chain management, the security of Internet of Things (IoT), healthcare, intelligent transportation systems, government services, and tourism. Moreover, this paper has critically evaluated the traditional technologies used in various sectors, the problems in them, and the benefits that will be provided by the employment of BC. With its future directions, this paper will help researchers to create and realize new value for various sectors that is beyond anything we can imagine with existing technologies." ;
+    dcterms:created "2021-11-20"^^xsd:date ;
+    dcterms:creator :Mir_Shahnawaz_Ahmad,
+        :Shahid_Mehraj_Shah ;
+    dcterms:title "Moving Beyond the Crypto-Currency Success of Blockchain: A Systematic Survey" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1853> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1853/704> ] .
+
+:Communication_Control_%26_Learning_Lab_Department_of_Electronics_%26_Communication_Engineering_National_Institute_of_Technology_Srinagar_J%26K_India a :Affiliation ;
+    skos:prefLabel "Communication Control & Learning Lab, Department of Electronics & Communication Engineering, National Institute of Technology, Srinagar, J&K, India." .
+
+:Communication_Control_%5C%26_Learning_Lab_Department_of_Electronics_%26_Communication_Engineering_National_Institute_of_Technology_Srinagar_J%26K_India a :Affiliation ;
+    skos:prefLabel "Communication Control \\& Learning Lab, Department of Electronics & Communication Engineering, National Institute of Technology, Srinagar, J&K, India." .
+
+:Mir_Shahnawaz_Ahmad a :Author ;
+    org:memberOf :Communication_Control_%26_Learning_Lab_Department_of_Electronics_%26_Communication_Engineering_National_Institute_of_Technology_Srinagar_J%26K_India ;
+    foaf:familyName "Ahmad" ;
+    foaf:givenName "Mir Shahnawaz" ;
+    foaf:name "Mir Shahnawaz Ahmad" .
+
+:Shahid_Mehraj_Shah a :Author ;
+    org:memberOf :Communication_Control_%5C%26_Learning_Lab_Department_of_Electronics_%26_Communication_Engineering_National_Institute_of_Technology_Srinagar_J%26K_India ;
+    foaf:familyName "Shah" ;
+    foaf:givenName "Shahid Mehraj" ;
+    foaf:name "Shahid Mehraj Shah" .
+

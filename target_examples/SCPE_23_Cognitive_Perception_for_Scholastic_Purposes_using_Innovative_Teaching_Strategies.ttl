@@ -1,0 +1,48 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_23_Cognitive_Perception_for_Scholastic_Purposes_using_Innovative_Teaching_Strategies a :Paper ;
+    prism:doi "10.12694/scpe.v23i4.2011" ;
+    prism:endingPage "157" ;
+    prism:keyword "Fractional calculus",
+        "Improved Invasive weed optimization",
+        "bounding model",
+        "concept drift detection",
+        "event log" ;
+    prism:startingPage "147" ;
+    prism:volume "23" ;
+    dcterms:abstract "The influence of emotion on attention is particularly strong, changing its selectivity in particular and motivating behavior and action. The degree to which a student participates in class determines their level of conceptual knowledge. Various teaching techniques have been developed over time to improve not only the attention of a student but also their engagement of a student. The level of engagement of a student can help us decide the amount of understanding a student can attain throughout the session. Though these techniques have been developed over time, the basic tests to determine the authenticity of these activities have been done mainly by the use of assessment-based methods. According to research in the field of neuroscience, a person's emotions can assist us to determine a student's level of participation. We also have the affective circumplex model to show us the correlation between emotions and the level of engagement of a person. Taking this into account, we developed an attentivity model with the help of an emotion recognition model (made with the help of VGG-16 architecture in CNN) and the eye tracking system to analyze the amount of engagement being displayed by the student in the class. This model applied to the students on the various teaching models helps us in deciding the effectiveness of various teaching methodologies for the primitive methods of teaching." ;
+    dcterms:created "2022-12-22"^^xsd:date ;
+    dcterms:creator :Kuchibhotla_Swarna,
+        :S._Aruna ;
+    dcterms:title "Cognitive Perception for Scholastic Purposes using Innovative Teaching Strategies" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/2011> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/2011/725> ] .
+
+:Department_of_CSE_Koneru_Lakshmaiah_Education_Foundation_Vaddeswaram_Guntur_Andhra_Pradesh_India a :Affiliation ;
+    skos:prefLabel "Department of CSE, Koneru Lakshmaiah Education Foundation, Vaddeswaram, Guntur, Andhra Pradesh, India" .
+
+:Department_of_Computer_Science_and_Engineering_Koneru_Lakshmaiah_Education_Foundation_Guntur_Andhra_Pradesh_India_and_Department_of_Information_Technology_Vasavi_College_of_Engineering_Hyderabad_India a :Affiliation ;
+    skos:prefLabel "Department of Computer Science and Engineering, Koneru Lakshmaiah Education Foundation, Guntur, Andhra Pradesh, India, and Department of Information Technology, Vasavi College of Engineering, Hyderabad, India" .
+
+:Kuchibhotla_Swarna a :Author ;
+    org:memberOf :Department_of_CSE_Koneru_Lakshmaiah_Education_Foundation_Vaddeswaram_Guntur_Andhra_Pradesh_India ;
+    foaf:familyName "Swarna" ;
+    foaf:givenName "Kuchibhotla" ;
+    foaf:name "Kuchibhotla Swarna" .
+
+:S._Aruna a :Author ;
+    org:memberOf :Department_of_Computer_Science_and_Engineering_Koneru_Lakshmaiah_Education_Foundation_Guntur_Andhra_Pradesh_India_and_Department_of_Information_Technology_Vasavi_College_of_Engineering_Hyderabad_India ;
+    foaf:familyName "Aruna" ;
+    foaf:givenName "S." ;
+    foaf:name "S. Aruna" .
+

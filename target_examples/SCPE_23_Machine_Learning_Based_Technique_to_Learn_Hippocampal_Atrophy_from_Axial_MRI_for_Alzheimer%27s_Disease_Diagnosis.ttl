@@ -1,0 +1,54 @@
+@prefix : <https://opencs.scpe.scraper.com/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix frbr: <http://purl.org/spar/frbr/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:SCPE_23_Machine_Learning_Based_Technique_to_Learn_Hippocampal_Atrophy_from_Axial_MRI_for_Alzheimer%27s_Disease_Diagnosis a :Paper ;
+    prism:doi "10.12694/scpe.v23i3.1993" ;
+    prism:endingPage "91" ;
+    prism:keyword "back propagation algorithm",
+        "features",
+        "hippocampus",
+        "segmentation" ;
+    prism:startingPage "81" ;
+    prism:volume "23" ;
+    dcterms:abstract "Hippocampus (HC) is one of the small brain components and its features majorly take part in diagnosing diseases such as Alzheimer and Dementia. The earlier detection of the size changes of HC leads to take preventive action against Alzheimer disease at initial stage. Thus the HC voxel quantification becomes essential to know the severity of the disease and thus induces computerized segmentation process. Several semi-automatic and automatic HC segmentation techniques proposed earlier. Though, it requires large memory space and high computational cost. This paper reduces the risk of searching a high configuration machine and reduces the cost by utilizing limited number of features. It is to be done by using some strategic features based on mathematical framework of wavelet, statistical features and gray level computations called level set. The features fed as input to the supervised machine learning model called back propagation neural network. A deep study conducted to train the net and analyzed in various views. The results were compared with the similar existing models which were using Random forest, Quicknat and deep learning. The proposed machine learning model produces the higher and similar dice scores of existing model. The validation of the proposed method yields 85% of dice score and 96% of sensitivity and 96% of specificity." ;
+    dcterms:created "2022-10-13"^^xsd:date ;
+    dcterms:creator :D._K._Ramkumar,
+        :N._V._Balaji,
+        :T._Genish ;
+    dcterms:title "Machine Learning Based Technique to Learn Hippocampal Atrophy from Axial MRI for Alzheimer's Disease Diagnosis" ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1993> ;
+    frbr:realization [ a fabio:DigitalManifestation ;
+            dcterms:format "application/pdf" ;
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1993/720> ] .
+
+:D._K._Ramkumar a :Author ;
+    org:memberOf :Department_of_Computer_Science_Karpagam_Academy_of_Higher_Education_Coimbatore_India ;
+    foaf:familyName "Ramkumar" ;
+    foaf:givenName "D. K." ;
+    foaf:name "D. K. Ramkumar" .
+
+:KPR_College_of_Arts_Science_and_Research_Coimbatore_India a :Affiliation ;
+    skos:prefLabel "KPR College of Arts Science and Research, Coimbatore, India" .
+
+:N._V._Balaji a :Author ;
+    org:memberOf :Department_of_Computer_Science_Karpagam_Academy_of_Higher_Education_Coimbatore_India ;
+    foaf:familyName "Balaji" ;
+    foaf:givenName "N. V." ;
+    foaf:name "N. V. Balaji" .
+
+:T._Genish a :Author ;
+    org:memberOf :KPR_College_of_Arts_Science_and_Research_Coimbatore_India ;
+    foaf:familyName "Genish" ;
+    foaf:givenName "T." ;
+    foaf:name "T. Genish" .
+
+:Department_of_Computer_Science_Karpagam_Academy_of_Higher_Education_Coimbatore_India a :Affiliation ;
+    skos:prefLabel "Department of Computer Science, Karpagam Academy of Higher Education, Coimbatore, India" .
+
