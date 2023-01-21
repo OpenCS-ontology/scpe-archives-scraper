@@ -17,6 +17,9 @@ def format_strings(target: str) -> str:
 
 
 class IdEquivalent(ABC):
+    """
+    Ids for affiliations are not used in this version of application.
+    """
     @abstractmethod
     def get_id(self) -> str:
         raise NotImplementedError

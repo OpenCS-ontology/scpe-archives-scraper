@@ -14,6 +14,11 @@ DOI_PREFIX = "https://doi.org/"
 
 
 def call_doi_api(doi: Optional[str]) -> Response:
+    """
+    Call the https://doi.org api and get a turtle file with the Response.
+
+    :param doi: Optional string with the requested DOI. If None, returns I AM A TEAPOT response.
+    """
     if doi is not None:
         url_call = DOI_PREFIX + doi
 
