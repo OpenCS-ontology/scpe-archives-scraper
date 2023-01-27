@@ -2,7 +2,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix frbr: <http://purl.org/spar/frbr/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -23,10 +22,10 @@
         :N._V._Balaji,
         :T._Genish ;
     dcterms:title "Machine Learning Based Technique to Learn Hippocampal Atrophy from Axial MRI for Alzheimer's Disease Diagnosis" ;
-    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1993> ;
-    frbr:realization [ a fabio:DigitalManifestation ;
+    fabio:hasManifestation [ a fabio:DigitalManifestation ;
             dcterms:format "application/pdf" ;
-            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1993/720> ] .
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1993/720> ] ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1993> .
 
 :D._K._Ramkumar a :Author ;
     org:memberOf :Department_of_Computer_Science_Karpagam_Academy_of_Higher_Education_Coimbatore_India ;

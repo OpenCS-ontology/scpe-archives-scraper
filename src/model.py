@@ -1,7 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Set, Optional
+from typing import Set, Optional  # , List
 
 from urllib.parse import quote
 
@@ -17,9 +17,6 @@ def format_strings(target: str) -> str:
 
 
 class IdEquivalent(ABC):
-    """
-    Ids for affiliations are not used in this version of application.
-    """
     @abstractmethod
     def get_id(self) -> str:
         raise NotImplementedError
@@ -34,15 +31,17 @@ class IdEquivalent(ABC):
         return hash(self.get_id())
 
 
-@dataclass(eq=True, order=True)
-class IdentifierModel:
-    """
-    Auxiliary class not represented in the vocabulary.
-    Describes a string typed with one of the scrapdt datatypes.
-    """
-
-    value: str
-    type_val: str
+# @dataclass(eq=True, order=True)
+# class IdentifierModel:
+#     """
+#     [NOTICE] Ids for affiliations are not used in this version of application.
+#
+#     Auxiliary class not represented in the vocabulary.
+#     Describes a string typed with one of the scrapdt datatypes.
+#     """
+#
+#     value: str
+#     type_val: str
 
 
 @dataclass(eq=False)
@@ -50,40 +49,42 @@ class AffiliationModel:
     # skos:prefLabel -> xsd:string
     name: str
 
-    # org:identifier -> xsd:simpleType
-    # Type specific to the identifier being described, taken from scrapdt namespace.
-    identifiers: List[IdentifierModel]
+    # # org:identifier -> xsd:simpleType
+    # # Type specific to the identifier being described, taken from scrapdt namespace.
+    # identifiers: List[IdentifierModel]
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
 
-        if len(self.identifiers) == 0 or len(other.identifiers) == 0:
-            # Identifiers are not supported in this version.
-            # logging.log(logging.WARN, f"Comparison of affiliations without identifiers (self: {len(self.identifiers)}, other: {len(other.identifiers)})")
-            return self.name == other.name
+        # if len(self.identifiers) == 0 or len(other.identifiers) == 0:
+        #     # Identifiers are not supported in this version.
+        #     # logging.log(logging.WARN, f"Comparison of affiliations without identifiers (self: {len(self.identifiers)}, other: {len(other.identifiers)})")
+        #     return self.name == other.name
+        return self.name == other.name
 
-        for identifier in self.identifiers:
-            if identifier in other.identifiers:
-                return True
-        return False
+        # for identifier in self.identifiers:
+        #     if identifier in other.identifiers:
+        #         return True
+        # return False
 
     def __ne__(self, other):
         return not self.__eq__(other)
 
     def __hash__(self):
-        reprs_of_each_id = []
-        for ident in self.identifiers:
-            reprs_of_each_id.append(repr(ident))
-        repr_ids = repr(sorted(reprs_of_each_id))
-        return hash(repr_ids)
+        # reprs_of_each_id = []
+        # for ident in self.identifiers:
+        #     reprs_of_each_id.append(repr(ident))
+        # repr_ids = repr(sorted(reprs_of_each_id))
+        # return hash(repr_ids)
+        return hash(self.name)
 
     def get_id(self):
-        for ident in self.identifiers:
-            if ident.type_val == "ROR":
-                return ident.value
-        if len(self.identifiers) > 0:
-            return self.identifiers[0].value
+        # for ident in self.identifiers:
+        #     if ident.type_val == "ROR":
+        #         return ident.value
+        # if len(self.identifiers) > 0:
+        #     return self.identifiers[0].value
         return format_strings(self.name)
 
 
@@ -129,11 +130,11 @@ class PaperModel(IdEquivalent):
     url: str
 
     # URL to a PDF file (realization)
-    # frbr:realization -> fabio:DigitalManifestation ->
-    #                     {
-    #                          dcterms:format -> xsd:string (application/pdf)
-    #                          fabio:hasURL -> xsd:string (THIS)
-    #                     }
+    # fabio:hasManifestation -> fabio:DigitalManifestation ->
+    #                           {
+    #                                dcterms:format -> xsd:string (application/pdf)
+    #                                fabio:hasURL -> xsd:string (THIS)
+    #                           }
     pdf_url: str
 
     # dcterms:title

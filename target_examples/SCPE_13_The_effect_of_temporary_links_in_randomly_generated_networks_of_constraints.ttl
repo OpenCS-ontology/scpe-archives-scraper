@@ -2,7 +2,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix frbr: <http://purl.org/spar/frbr/> .
 @prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -17,10 +16,10 @@ in order to detect obsolete information. A first way to remove obsolete informat
         :Ionel_Muscalagiu,
         :Viorel_Negru ;
     dcterms:title "The effect of temporary links in randomly generated networks of constraints" ;
-    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/767> ;
-    frbr:realization [ a fabio:DigitalManifestation ;
+    fabio:hasManifestation [ a fabio:DigitalManifestation ;
             dcterms:format "application/pdf" ;
-            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/767/347> ] .
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/767/347> ] ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/767> .
 
 :Horia_Emil_Popa a :Author ;
     foaf:name "Horia Emil Popa" .

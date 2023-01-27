@@ -2,7 +2,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix frbr: <http://purl.org/spar/frbr/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -23,10 +22,10 @@
     dcterms:creator :Kuchibhotla_Swarna,
         :S._Aruna ;
     dcterms:title "Cognitive Perception for Scholastic Purposes using Innovative Teaching Strategies" ;
-    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/2011> ;
-    frbr:realization [ a fabio:DigitalManifestation ;
+    fabio:hasManifestation [ a fabio:DigitalManifestation ;
             dcterms:format "application/pdf" ;
-            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/2011/725> ] .
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/2011/725> ] ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/2011> .
 
 :Department_of_CSE_Koneru_Lakshmaiah_Education_Foundation_Vaddeswaram_Guntur_Andhra_Pradesh_India a :Affiliation ;
     skos:prefLabel "Department of CSE, Koneru Lakshmaiah Education Foundation, Vaddeswaram, Guntur, Andhra Pradesh, India" .

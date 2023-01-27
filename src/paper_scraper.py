@@ -1,12 +1,13 @@
 import logging
+import re
 from dataclasses import dataclass
 from http import HTTPStatus
 from queue import Queue
-from requests.exceptions import ConnectionError
 from threading import Thread
 from typing import List, Optional, Tuple, Callable
 
 from bs4 import BeautifulSoup
+from requests.exceptions import ConnectionError
 
 import requests_trials as requests
 
@@ -160,7 +161,7 @@ def scrape_paper(q: Queue[PaperScraperResponse], url_paper: str) -> None:
         result = []
         for meta_keyword in html.findAll("meta", {"name": "DC.Subject"}):
             keywords = meta_keyword.attrs['content']
-            for keyword in keywords.split(","):
+            for keyword in re.split(r"[,;]", keywords):
                 result.append(keyword.strip(".").strip(" "))
         return result
 

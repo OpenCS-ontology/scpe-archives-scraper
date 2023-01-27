@@ -2,7 +2,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix frbr: <http://purl.org/spar/frbr/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -24,10 +23,10 @@
     dcterms:creator :Mir_Shahnawaz_Ahmad,
         :Shahid_Mehraj_Shah ;
     dcterms:title "Moving Beyond the Crypto-Currency Success of Blockchain: A Systematic Survey" ;
-    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1853> ;
-    frbr:realization [ a fabio:DigitalManifestation ;
+    fabio:hasManifestation [ a fabio:DigitalManifestation ;
             dcterms:format "application/pdf" ;
-            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1853/704> ] .
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1853/704> ] ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1853> .
 
 :Communication_Control_%26_Learning_Lab_Department_of_Electronics_%26_Communication_Engineering_National_Institute_of_Technology_Srinagar_J%26K_India a :Affiliation ;
     skos:prefLabel "Communication Control & Learning Lab, Department of Electronics & Communication Engineering, National Institute of Technology, Srinagar, J&K, India." .

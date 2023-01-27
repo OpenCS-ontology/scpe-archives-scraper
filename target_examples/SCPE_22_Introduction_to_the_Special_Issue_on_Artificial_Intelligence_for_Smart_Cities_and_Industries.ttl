@@ -3,7 +3,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix frbr: <http://purl.org/spar/frbr/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -24,10 +23,10 @@
         :Gaurav_Dhiman,
         :Wei-Chiang_Hong ;
     dcterms:title "Introduction to the Special Issue on Artificial Intelligence for Smart Cities and Industries" ;
-    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1939> ;
-    frbr:realization [ a fabio:DigitalManifestation ;
+    fabio:hasManifestation [ a fabio:DigitalManifestation ;
             dcterms:format "application/pdf" ;
-            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1939/700> ] .
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1939/700> ] ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1939> .
 
 :0000-0002-7676-9014 a :Author ;
     dbo:orcidId "0000-0002-7676-9014" ;

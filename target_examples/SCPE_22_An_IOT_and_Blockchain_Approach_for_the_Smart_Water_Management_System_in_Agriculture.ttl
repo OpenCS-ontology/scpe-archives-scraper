@@ -2,7 +2,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix fabio: <http://purl.org/spar/fabio/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix frbr: <http://purl.org/spar/frbr/> .
 @prefix org: <http://www.w3.org/ns/org#> .
 @prefix prism: <http://prismstandard.org/namespaces/basic/2.0/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -22,10 +21,10 @@
         :Kayhan_Zrar_Ghafoor,
         :Yunyan_Chang ;
     dcterms:title "An IOT and Blockchain Approach for the Smart Water Management System in Agriculture" ;
-    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1869> ;
-    frbr:realization [ a fabio:DigitalManifestation ;
+    fabio:hasManifestation [ a fabio:DigitalManifestation ;
             dcterms:format "application/pdf" ;
-            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1869/684> ] .
+            fabio:hasURL <https://www.scpe.org/index.php/scpe/article/download/1869/684> ] ;
+    fabio:hasURL <https://www.scpe.org/index.php/scpe/article/view/1869> .
 
 :Department_of_Computer_Science_Knowledge_University_Erbil_Iraq a :Affiliation ;
     skos:prefLabel "Department of Computer Science, Knowledge University, Erbil, Iraq" .

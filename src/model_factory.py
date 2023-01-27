@@ -25,8 +25,8 @@ def create_author_model(scraper_author: Optional[scraper.AuthorScraperResponse],
     if scraper_author is not None and scraper_author.affiliation is not None:
         affiliation = model.AffiliationModel(
             name=scraper_author.affiliation,
-            # Identifiers are left empty, because the data is not provided by SCPE website.
-            identifiers=[]
+            # # Identifiers are left empty, because the data is not provided by SCPE website.
+            # identifiers=[]
         )
         result_affiliations.add(affiliation)
 

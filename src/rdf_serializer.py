@@ -6,7 +6,7 @@ from rdflib.namespace import Namespace
 from rdflib.term import URIRef, Literal, BNode
 
 import model
-from rdf_namespaces import DBO, FABIO, FRBR, PRISM
+from rdf_namespaces import DBO, FABIO, PRISM
 
 
 class RDFSerializer:
@@ -14,12 +14,13 @@ class RDFSerializer:
         URI_BASE = URIRef("https://opencs.scpe.scraper.com/")
         self._BASE = Namespace(URI_BASE)
 
-        URI_DT = URIRef("https://opencs.scpe.scraper.com/datatypes#")
-        self._SCRAPDT = Namespace(URI_DT)
+        # TODO: Find another method to obtain the ROR/GRID/other identifiers for organizations. Then implement and use the datatypes xml namespace.
+        # URI_DT = URIRef("https://opencs.scpe.scraper.com/datatypes#")
+        # self._SCRAPDT = Namespace(URI_DT)
 
         self._g = Graph()
         self._g.bind("", self._BASE)
-        self._g.bind("scrapdt", self._SCRAPDT)
+        # self._g.bind("scrapdt", self._SCRAPDT)
         self._g.bind("xsd", XSD)
         self._g.bind("dcterms", DCTERMS)
         self._g.bind("foaf", FOAF)
@@ -31,7 +32,6 @@ class RDFSerializer:
         self._g.bind("fabio", FABIO)
         self._g.bind("dbo", DBO)
         self._g.bind("prism", PRISM)
-        self._g.bind("frbr", FRBR)
 
     def _add_pdf_bnode(self, paper: model.PaperModel) -> BNode:
         bn = BNode()
@@ -59,13 +59,11 @@ class RDFSerializer:
         ]
 
         if paper.pdf_url is not None:
-            pdf_realization = self._add_pdf_bnode(paper)
-            pairs.append((FRBR.realization, pdf_realization))
+            pdf_manifestation = self._add_pdf_bnode(paper)
+            pairs.append((FABIO.hasManifestation, pdf_manifestation))
 
         for keyword in paper.keywords:
-            keyword_list = keyword.split(",")
-            for k in keyword_list:
-                pairs.append((PRISM.keyword, Literal(k)))
+            pairs.append((PRISM.keyword, Literal(keyword)))
 
         for author in paper.authors:
             pairs.append((DCTERMS.creator, self._BASE[author.get_id()]))
@@ -93,8 +91,8 @@ class RDFSerializer:
         for p, o in pairs:
             self._g.add((author_node, p, o))
 
-    def _format_identifier(self, identifier: model.IdentifierModel) -> Literal:
-        return Literal(identifier.value, datatype=self._SCRAPDT[identifier.type_val])
+    # def _format_identifier(self, identifier: model.IdentifierModel) -> Literal:
+    #     return Literal(identifier.value, datatype=self._SCRAPDT[identifier.type_val])
 
     def accept_affiliation(self, affiliation: model.AffiliationModel):
         affiliation_id = affiliation.get_id()
@@ -105,8 +103,8 @@ class RDFSerializer:
             None if affiliation.name is None else (SKOS.prefLabel, Literal(affiliation.name)),
         ]
 
-        for identifier in affiliation.identifiers:
-            pairs.append((ORG.identifier, self._format_identifier(identifier)))
+        # for identifier in affiliation.identifiers:
+        #     pairs.append((ORG.identifier, self._format_identifier(identifier)))
 
         pairs = filter(lambda x: x is not None, pairs)
         for p, o in pairs:
