@@ -23,7 +23,7 @@ The scraper can be run with docker (`./docker_build.sh`, `./docker_run.sh`) or l
 * `prism:startingPage` - Starting page in the volume. Need not be a number.
 * `prism:endingPage` - Ending page in the volume. Need not be a number.
 * `prism:keyword` - One of the keywords for this paper. Multiple keywords allowed.
-* `frbr:realization` - Blank node of class `fabio:DigitalManifestation` with properties:
+* `fabio:hasManifestation` - Blank node of class `fabio:DigitalManifestation` with properties:
 	* `dcterms:format` - Always "application/pdf".
 	* `fabio:hasURL` - URL to the PDF file for this paper (as URI).
 * `dcterms:creator` - Link to each of the `:Author`s.
@@ -37,3 +37,7 @@ The scraper can be run with docker (`./docker_build.sh`, `./docker_run.sh`) or l
 
 ### `:Affiliation`
 * `skos:prefLabel` - Name of the organization.
+
+***
+
+Feel encouraged to check the example outputs in `target_examples`.
